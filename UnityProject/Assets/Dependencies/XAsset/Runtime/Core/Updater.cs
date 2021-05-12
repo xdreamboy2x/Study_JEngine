@@ -28,7 +28,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using JEngine.Core;
 using UnityEditor;
 using UnityEngine;
@@ -67,8 +66,8 @@ namespace libx
 
         [SerializeField] private string baseURL = "http://127.0.0.1:7888/DLC/";
         [SerializeField] private string gameScene = "Game.unity";
-        [SerializeField] private bool enableVFS = true;
         [SerializeField] private bool development;
+        private bool enableVFS = true;
 
         public IUpdater listener { get; set; }
 
@@ -102,16 +101,11 @@ namespace libx
                 listener.OnVersion(ver);
             }
         }
-
-        private void Awake()
-        {
-            var Init = FindObjectOfType<Init>();
-            Init.enabled = false;
-            DontDestroyOnLoad(Init.gameObject);
-        }
-
+        
         private void Start()
         {
+            baseURL = baseURL.EndsWith("/") ? baseURL : baseURL + "/";
+            
             _downloader = gameObject.GetComponent<Downloader>();
             _downloader.onUpdate = OnUpdate;
             _downloader.onFinished = OnComplete;
@@ -340,9 +334,9 @@ namespace libx
                 default:
                     return null;
             }
+            return null;
 #endif
 
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (target)
             {
                 case RuntimePlatform.Android:
@@ -356,10 +350,11 @@ namespace libx
                     return "Windows";
                 case RuntimePlatform.OSXEditor:
                 case RuntimePlatform.OSXPlayer:
-                    return "OSX";
+                    return "OSX"; // OSX
                 default:
                     return null;
             }
+            return null;
         }
 
         private string GetDownloadURL(string filename)
@@ -537,8 +532,8 @@ namespace libx
             var v2 = -1;
             var hasFile = string.IsNullOrEmpty(request.error);
             if (hasFile) { v2 = Versions.LoadVersion(path); }
-            var steamFileThenSave = v2 > v1;
-            if (steamFileThenSave) { Debug.LogWarning("本地流目录版本高于网络目录版本"); }
+            var steamFileThenSave = v2 >= v1;
+            if (steamFileThenSave) { Debug.LogWarning("本地流目录版本高于或等于网络目录版本"); }
             _step = hasFile && steamFileThenSave ? Step.Coping : Step.Versions;
             request.Dispose();
         }
@@ -642,9 +637,9 @@ namespace libx
                 var scene = Assets.LoadSceneAsync(gameScene, false);
                 scene.completed += (AssetRequest request) =>
                 {
-                    FindObjectOfType<Init>().Load();
+                    FindObjectOfType<InitJEngine>().Load();
                     ClassBindMgr.Instantiate();
-                    FindObjectOfType<Init>().OnHotFixLoaded();
+                    FindObjectOfType<InitJEngine>().OnHotFixLoaded();
                 };
                 while (!scene.isDone)
                 {
