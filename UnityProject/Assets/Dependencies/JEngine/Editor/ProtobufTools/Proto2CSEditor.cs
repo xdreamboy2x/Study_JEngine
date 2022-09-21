@@ -23,8 +23,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
+#if INIT_JE
 using System.IO;
+using System;
 using Google.Protobuf.Reflection;
 using JEngine.Core;
 using ProtoBuf.Reflection;
@@ -42,7 +43,7 @@ namespace JEngine.Editor
 		{
 			win = GetWindow<Proto2CSEditor>("Proto2CS Generator");
 			win.folder = EditorUtility.OpenFolderPanel("Select proto files directory 请选择proto文件路径",
-				Application.dataPath + "/Dependencies/Protobuf/ProtoFiles", "");
+				Application.dataPath, "");
 			win.minSize = new Vector2(500, 500);
 			win.Show();
 		}
@@ -102,7 +103,7 @@ namespace JEngine.Editor
 			if (GUILayout.Button("Select Path 选择路径", GUILayout.ExpandWidth(false)))
 			{
 				folder = EditorUtility.OpenFolderPanel("Select proto files destination 请选择proto文件路径",
-					Application.dataPath + "/Dependencies/Protobuf/ProtoFiles", "");
+					Application.dataPath, "");
 			}
 
 			GUILayout.EndHorizontal();
@@ -136,7 +137,7 @@ namespace JEngine.Editor
 					"*.proto", SearchOption.AllDirectories);
 				var _fileListInstance = new string[_fileList.Length];
 				for (int i = 0; i < _fileList.Length; i++)
-					_fileListInstance[i] = Path.GetFileName(_fileList[i]);
+					_fileListInstance[i] = MakeRelativePath(folder, _fileList[i]);
 				_fileList = _fileListInstance;
 				_serializedObject.Update();
 			}
@@ -146,6 +147,39 @@ namespace JEngine.Editor
 			{
 				Generate(folder, _fileList, Application.dataPath + "/../HotUpdateScripts/Proto2cs");
 			}
+		}
+		
+		public static string MakeRelativePath(string fromPath, string toPath)
+		{
+			if (String.IsNullOrEmpty(fromPath)) throw new ArgumentNullException(nameof(fromPath));
+			if (String.IsNullOrEmpty(toPath)) throw new ArgumentNullException(nameof(toPath));
+			// make sure there is a trailing '/', else Uri.MakeRelativeUri won't work as expected
+			char lastChar = fromPath[fromPath.Length - 1];
+			if (lastChar != Path.DirectorySeparatorChar && lastChar != Path.AltDirectorySeparatorChar)
+				fromPath += Path.DirectorySeparatorChar;
+
+			Uri fromUri = new Uri(fromPath, UriKind.RelativeOrAbsolute);
+			if (!fromUri.IsAbsoluteUri)
+			{
+				fromUri = new Uri(Path.Combine(Directory.GetCurrentDirectory(), fromPath));
+			}
+			Uri toUri = new Uri(toPath, UriKind.RelativeOrAbsolute);
+			if (!toUri.IsAbsoluteUri)
+			{
+				toUri = new Uri(Path.Combine(Directory.GetCurrentDirectory(), toPath));
+			}
+
+			if (fromUri.Scheme != toUri.Scheme) { return toPath; } // path can't be made relative.
+
+			Uri relativeUri = fromUri.MakeRelativeUri(toUri);
+			String relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+
+			if (toUri.Scheme.Equals("file", StringComparison.OrdinalIgnoreCase))
+			{
+				relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+			}
+
+			return relativePath;
 		}
 
 		private static void Generate(string inpath, string[] inprotos, string outpath)
@@ -171,6 +205,15 @@ namespace JEngine.Editor
 
 			set.Process();
 			var errors = set.GetErrors();
+			if (errors != null && errors.Length > 0)
+			{
+				foreach (var error in errors)
+				{
+					Debug.LogError(error);
+				}
+
+				return;
+			}
 			CSharpCodeGenerator.ClearTypeNames();
 			var files = CSharpCodeGenerator.Default.Generate(set);
 
@@ -178,6 +221,11 @@ namespace JEngine.Editor
 			{
 				CSharpCodeGenerator.ClearTypeNames();
 				var path = Path.Combine(outpath, file.Name);
+				var absolutePath = Path.GetFullPath(path);
+				var absoluteOutPath = Path.GetDirectoryName(absolutePath);
+				if (!Directory.Exists(absoluteOutPath)) {
+					Directory.CreateDirectory(absoluteOutPath);
+				}
 				File.WriteAllText(path, file.Text);
 				
 				Log.Print($"Generated cs file for {file.Name.Replace(".cs",".proto")} successfully to: {path}");
@@ -191,5 +239,5 @@ namespace JEngine.Editor
 			win.Close();
 		}
 	}
-
 }
+#endif

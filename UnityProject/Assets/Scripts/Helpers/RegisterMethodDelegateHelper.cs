@@ -4,7 +4,6 @@ using System.Timers;
 using ILRuntime.Runtime.Intepreter;
 using JEngine.Interface;
 using JEngine.Net;
-using libx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using WebSocketSharp;
@@ -13,7 +12,7 @@ using Object = System.Object;
 
 namespace JEngine.Helper
 {
-    public class RegisterMethodDelegateHelper: IRegisterHelper
+    public class RegisterMethodDelegateHelper : IRegisterHelper
     {
         private static RegisterMethodDelegateHelper Instance;
 
@@ -25,19 +24,18 @@ namespace JEngine.Helper
             }
             Instance.Register(appdomain);
         }
-        
+
         public void Register(AppDomain appdomain)
         {
             appdomain.DelegateManager.RegisterMethodDelegate<object>();
-            appdomain.DelegateManager.RegisterMethodDelegate<object,object>();
-            appdomain.DelegateManager.RegisterMethodDelegate<object,object,object>();
-            appdomain.DelegateManager.RegisterMethodDelegate<object,object,object,object>();
+            appdomain.DelegateManager.RegisterMethodDelegate<object, object>();
+            appdomain.DelegateManager.RegisterMethodDelegate<object, object, object>();
+            appdomain.DelegateManager.RegisterMethodDelegate<object, object, object, object>();
             appdomain.DelegateManager.RegisterMethodDelegate<System.Int64>();
             appdomain.DelegateManager.RegisterMethodDelegate<Object, MessageEventArgs>();
             appdomain.DelegateManager.RegisterMethodDelegate<Object, ElapsedEventArgs>();
             appdomain.DelegateManager.RegisterMethodDelegate<Object[]>();
             appdomain.DelegateManager.RegisterMethodDelegate<SocketIOEvent>();
-            appdomain.DelegateManager.RegisterMethodDelegate<AssetRequest>();
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Object>();
             appdomain.DelegateManager.RegisterMethodDelegate<Object>();
             appdomain.DelegateManager
@@ -60,6 +58,13 @@ namespace JEngine.Helper
             appdomain.DelegateManager.RegisterMethodDelegate<Int32>();
             appdomain.DelegateManager.RegisterMethodDelegate<GameObject, Action>();
             appdomain.DelegateManager.RegisterMethodDelegate<GameObject, PointerEventData>();
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Object, System.Threading.Tasks.UnobservedTaskExceptionEventArgs>();
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Int64>();
+            appdomain.DelegateManager.RegisterMethodDelegate<Boolean, Boolean>();
+            appdomain.DelegateManager.RegisterMethodDelegate<Single, Single>();
+            appdomain.DelegateManager.RegisterMethodDelegate<String, String>();
+            appdomain.DelegateManager.RegisterMethodDelegate<GameObject, GameObject>();
+            appdomain.DelegateManager.RegisterMethodDelegate<Int32, Int32>();
 
         }
     }

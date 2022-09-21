@@ -347,8 +347,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 964396227}
-  - component: {fileID: 964396226}
-  - component: {fileID: 964396228}
   - component: {fileID: 964396229}
   m_Layer: 0
   m_Name: Updater
@@ -357,22 +355,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &964396226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 964396225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16b97ae374d27c0479dce9413bde907d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _step: 0
-  baseURL: http://127.0.0.1/DLC/
-  gameScene: Game.unity
-  development: 1
 --- !u!4 &964396227
 Transform:
   m_ObjectHideFlags: 0
@@ -387,20 +369,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &964396228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 964396225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0a7b861ace0d3d4baf5ebe05cdf78f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDownloads: 3
-  sampleTime: 0.5
 --- !u!114 &964396229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,10 +378,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 964396225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ca7cc9473d2f4566a939b75ec56b9d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a9e09392b0364e338a196bbe4b3d11d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleTime: 0.5
+  baseURL: http://127.0.0.1:7888/DLC/
+  gameScene: Assets/HotUpdateResources/Scene/Game.unity
+  mainPackageName: Main
+  mainPackageKey: 
+  mainPackageCheckCRC: 1
+  mode: 0
 --- !u!1 &1033013693
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,6 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: developmentMode.
+  useJIT: 1
   usePdb: 1
   debug: 1
 --- !u!1 &1079429683
@@ -725,7 +699,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 964396226}
+      - m_Target: {fileID: 964396229}
         m_MethodName: StartUpdate
         m_Mode: 1
         m_Arguments:
@@ -909,6 +883,7 @@ MonoBehaviour:
   progressBar: {fileID: 1847636611}
   progressText: {fileID: 1946342720}
   version: {fileID: 2019442892}
+  packageName: 
 --- !u!114 &1196238783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1076,15 +1051,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 964396226}
-        m_MethodName: Clear
-        m_Mode: 1
+      - m_Target: {fileID: 964396229}
+        m_MethodName: ClearPackageForButton
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Main
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1277094936
@@ -1442,49 +1417,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499273711}
   m_CullTransparentMesh: 0
---- !u!1 &1642149903
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1642149905}
-  - component: {fileID: 1642149904}
-  m_Layer: 0
-  m_Name: Loom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1642149904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642149903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a4aba6121e35420c89ffb6451ac9380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1642149905
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1642149903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1199.4008, y: 952.7416, z: -16567.768}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1787357528
 GameObject:
   m_ObjectHideFlags: 0

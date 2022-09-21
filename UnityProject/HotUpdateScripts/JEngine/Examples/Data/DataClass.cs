@@ -26,17 +26,8 @@
 using JEngine.Core;
 namespace JEngine.Examples
 {
-    [System.Serializable][global::ProtoBuf.ProtoContract()]
-    public class DataClass
+    public partial class DataClass
     {
-        /*
-         * Fields to serialize
-         */
-        [global::ProtoBuf.ProtoMember(1)] public int id = 0;
-        [global::ProtoBuf.ProtoMember(2)] public string name = "";
-        [global::ProtoBuf.ProtoMember(3)] private long money = 0;
-        [global::ProtoBuf.ProtoMember(4)] public bool gm = false;
-
         /// <summary>
         /// Property which holds the real value
         /// </summary>

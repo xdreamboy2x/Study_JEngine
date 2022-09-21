@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
 using ILRuntime.Runtime.Intepreter;
-using JEngine.UI;
 using LitJson;
-using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using WebSocketSharp;
 using AppDomain = ILRuntime.Runtime.Enviorment.AppDomain;
 using Object = System.Object;
@@ -29,23 +26,6 @@ namespace JEngine.Helper
 
         public void Register(AppDomain appdomain)
         {
-            appdomain.DelegateManager.RegisterDelegateConvertor<JEngine.Core.BindableProperty<System.Int64>.onChange>((act) =>
-            {
-                return new JEngine.Core.BindableProperty<System.Int64>.onChange((val) =>
-                {
-                    ((Action<System.Int64>)act)(val);
-                });
-            });
-
-
-            appdomain.DelegateManager.RegisterDelegateConvertor<JEngine.Core.BindableProperty<System.Object>.onChange>((act) =>
-            {
-                return new JEngine.Core.BindableProperty<System.Object>.onChange((val) =>
-                {
-                    ((Action<System.Object>)act)(val);
-                });
-            });
-
 
             appdomain.DelegateManager.RegisterDelegateConvertor<Predicate<String>>(act =>
             {
@@ -124,7 +104,7 @@ namespace JEngine.Helper
             });
             appdomain.DelegateManager.RegisterDelegateConvertor<UnityAction>(act =>
             {
-                return new UnityAction(async () => { ((Action) act)(); });
+                return new UnityAction( () => { ((Action) act)(); });
             });
             appdomain.DelegateManager.RegisterDelegateConvertor<ThreadStart>(act =>
             {
@@ -152,13 +132,6 @@ namespace JEngine.Helper
                     ((Action<Object, ElapsedEventArgs>)act)(sender, e);
                 });
             });
-            appdomain.DelegateManager.RegisterDelegateConvertor<UIEventHandle<PointerEventData>>(act =>
-            {
-                return new UIEventHandle<PointerEventData>((go, eventData) =>
-                {
-                    ((Action<GameObject, PointerEventData>)act)(go, eventData);
-                });
-            });
             appdomain.DelegateManager.RegisterDelegateConvertor<Predicate<KeyValuePair<String, ILTypeInstance>>>(act =>
             {
                 return new Predicate<KeyValuePair<String, ILTypeInstance>>(obj =>
@@ -166,7 +139,20 @@ namespace JEngine.Helper
                     return ((Func<KeyValuePair<String, ILTypeInstance>, Boolean>)act)(obj);
                 });
             });
-            
+            appdomain.DelegateManager.RegisterDelegateConvertor<System.EventHandler<System.Threading.Tasks.UnobservedTaskExceptionEventArgs>>((act) =>
+            {
+                return new System.EventHandler<System.Threading.Tasks.UnobservedTaskExceptionEventArgs>((sender, e) =>
+                {
+                    ((Action<System.Object, System.Threading.Tasks.UnobservedTaskExceptionEventArgs>)act)(sender, e);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<System.Predicate<UnityEngine.GameObject>>((act) =>
+            {
+                return new System.Predicate<UnityEngine.GameObject>((obj) =>
+                {
+                    return ((Func<UnityEngine.GameObject, System.Boolean>)act)(obj);
+                });
+            });
         }
     }
 }

@@ -44,6 +44,9 @@ namespace JEngine.Helper
             appdomain.DelegateManager.RegisterFunctionDelegate<KeyValuePair<String, ILTypeInstance>, ILTypeInstance>();
             appdomain.DelegateManager.RegisterFunctionDelegate<KeyValuePair<String, ILTypeInstance>, Boolean>();
             appdomain.DelegateManager.RegisterFunctionDelegate<KeyValuePair<String, ILTypeInstance>, String>();
+            appdomain.DelegateManager.RegisterFunctionDelegate<System.Type, System.Type>();
+            appdomain.DelegateManager.RegisterFunctionDelegate<global::MonoBehaviourAdapter.Adaptor, System.String>();
+            appdomain.DelegateManager.RegisterFunctionDelegate<UnityEngine.GameObject, System.Boolean>();
         }
     }
 }

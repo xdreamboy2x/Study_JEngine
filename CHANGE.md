@@ -1,5 +1,69 @@
 ## All Versions
 
+### 0.7.3 (July 14 2022)
+
+- Bug **fixed**
+
+- **Updated** ILRuntime
+
+- **Updated** Bundle Master
+
+- **Enhanced** JBehaviour performance
+
+- **Enhanced** ClassBind runtime performance
+
+- **Almost no GC allocation**  async wait method
+
+  
+
+### 0.7.2 (May 15 2022)
+
+- Bug **fixed**
+- **Enhanced** framework code
+- **Enhance ** Lifecycle
+- **Updated** ETTask
+- **Enhanced **JAction
+- **Enhanced** JBehaviour
+- **Enhanced** Unity **Exception StackTrace**
+- **HotUpdateResource** support **Blacklist**
+- **New** Protobuf **Serialize Demo**
+- **Updated** Protobuf-net **library**
+
+### 0.7.1 (March 28 2022)
+
+- **Update** ILRuntime v2.0.2
+- Support **multiple** hot update **packages**
+- **Removed** XAsset
+- Imported **BundleMaster**
+
+
+
+### 0.7.0 (Feburary 17 2022)
+
+  - Mark dependencies as **modules** (More standardized)
+  - Support **offline mode** (Run your game without building a resource server)
+  - Modify **developing procedure** (Enhanced experience when developing)
+  - **Decoupling framework code** (More lightweight and even easier to use)
+  - **Enhanced framework code** (A better performance)
+  - Enhanced **Litjson and Protobuf-net** (More reliable (de)serializing tools)
+  - **Fixed all Issues** occured in 0.6.3 (More powerful and less bugs)
+  - More **Demo** (Easier to start)
+  - Add **extensible validator** (New feature)
+  - Useful **UI extension tools** (New feature)
+  - **ILRuntime2.0** (A better performance with less bugs)
+  - **JPrefab Upgrade** (Support (a)synchronization to create and destory mutliple at once)
+  - **JBehaviour new lifecycles** (Similar to MonoBehaviour's OnEnable and OnDisable)
+
+
+
+### v0.6.3 (August 13 2021)
+
+- **Implemented** ```[System.Serializable]``` when generating **c# from proto**
+- **Changed** ClassBind default to **active after**
+- **Enhanced** the precision for **JFloat**
+- **Enhanced** unity project which no longer depends JBehaviour from HotUpdate Solution
+- **NEW** JEvent + Event Demo
+
 
 
 ### v0.6.2 (April 30 2021)

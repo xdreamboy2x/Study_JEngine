@@ -1,4 +1,4 @@
-﻿//
+//
 // JUI.cs
 //
 // Author:
@@ -86,16 +86,34 @@ namespace JEngine.UI
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
-        /// <param name="onChange">非必填optional</param>
         /// <returns></returns>
         public JUI Bind<T>(BindableProperty<T> val)
         {
+            if (_bind)
+            {
+                Log.PrintWarning($"已经绑定了一个BindableProperty<{_bindType}>，该可绑定值的绑定事件不会被取消，意味着多个可绑定值的变更都会调用到onMessage里的内容");
+            }
             _bind = true;
             _bindType = typeof(T);
-            val.OnChange += (T value) =>
-            {
-                Message(value);
-            };
+            _initialVal = val.Value;
+            val.OnChangeWithOldVal += Message;
+            _end += (j) => Unbind(val);
+            return this;
+        }
+
+        /// <summary>
+        /// Unbinds a data
+        /// 取消绑定数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public JUI Unbind<T>(BindableProperty<T> val)
+        {
+            _bind = false;
+            _bindType = null;
+            _initialVal = null;
+            val.OnChangeWithOldVal -= Message;
             return this;
         }
 
@@ -104,6 +122,7 @@ namespace JEngine.UI
         /// </summary>
         private bool _bind;
         private Type _bindType;
+        private object _initialVal;
 
         /// <summary>
         /// Calls when UI has been inited
@@ -159,23 +178,50 @@ namespace JEngine.UI
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public JUI onMessage<T>(Action<JUI,T> message)
+        public JUI onMessage<T>(Action<JUI, T> message)
+        {
+            if (CheckMessageBindable<T>())
+            {
+                _message = (jui, oldValue, newValue) =>
+                {
+                    message?.Invoke(jui, (T)newValue);
+                };
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Calls on message
+        /// 通知时调用（如果要有老参数的话）
+        /// Action的参数分别是JUI本身，OldVal，NewVal
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public JUI onMessageWithOldVal<T>(Action<JUI, T, T> message)
+        {
+            if (CheckMessageBindable<T>())
+            {
+                _message = (jui, oldValue, newValue) =>
+                {
+                    message?.Invoke(jui, (T)oldValue, (T)newValue);
+                };
+            }
+            return this;
+        }
+
+        private bool CheckMessageBindable<T>()
         {
             if (!_bind)
             {
                 Log.PrintError($"请先对JUI绑定数值（gameObject: {gameObject.name}）");
-                return this;
+                return false;
             }
             if (_bindType != typeof(T))
             {
                 Log.PrintError($"JUI数值绑定的监听方法的泛型参数必须是{_bindType.FullName}类型，当前注册的是{typeof(T)}类型（gameObject: {gameObject.name}）");
-                return this;
+                return false;
             }
-            _message = (jui,value) =>
-            {
-                message?.Invoke(jui,(T)value);
-            };
-            return this;
+            return true;
         }
 
         /// <summary>
@@ -185,7 +231,14 @@ namespace JEngine.UI
         /// <returns></returns>
         public new JUI Activate()
         {
-            base.Activate();
+            if (_bind)
+            {
+                _message?.Invoke(this, _initialVal, _initialVal);
+            }
+            else
+            {
+                base.Activate();
+            }
             return this;
         }
 
@@ -209,7 +262,7 @@ namespace JEngine.UI
             _run = new Action<JUI>(t => { });
             _loop = new Action<JUI>(t => { });
             _end = new Action<JUI>(t => { });
-            _message = new Action<JUI, object>((j, o) => { });
+            _message = new Action<JUI, object, object>((j, oldO, newO) => { });
         }
 
         #region OVERRIDE METHODS
@@ -243,11 +296,11 @@ namespace JEngine.UI
         }
         #endregion
 
-        private Action<JUI,object> _message;
-        private void Message<T>(T val)
+        private Action<JUI, object, object> _message;
+        private void Message<T>(T oldVal, T newVal)
         {
             if (!_bind) return;
-            _message?.Invoke(this,val);
+            _message?.Invoke(this, oldVal, newVal);
         }
     }
 }

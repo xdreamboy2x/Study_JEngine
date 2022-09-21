@@ -23,7 +23,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
+#if INIT_JE
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -98,8 +98,7 @@ namespace JEngine.Editor
 			var _class = win._class;
 			
 			//先热更里找
-			Type t = Assembly
-				.LoadFile("Assets/HotUpdateResources/Dll/Hidden~/HotUpdateScripts.dll").GetType(_class);
+			Type t = JEngine.Core.Tools.GetHotType(_class);
 
 			if (t == null)
 			{
@@ -142,5 +141,5 @@ namespace JEngine.Editor
 			win.Close();
 		}
 	}
-
 }
+#endif

@@ -28,39 +28,34 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Windows|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="JEngine\Core\ProtoTypeRegister.cs" />
     <Compile Include="JEngine\Core\JSaver.cs" />
     <Compile Include="JEngine\Core\JObjectPool.cs" />
     <Compile Include="JEngine\Core\JBehaviour.cs" />
-    <Compile Include="JEngine\Core\JResource.cs" />
     <Compile Include="JEngine\Core\JAction.cs" />
     <Compile Include="JEngine\Core\StringifyHelper.cs" />
     <Compile Include="JEngine\Core\JPrefab.cs" />
-    <Compile Include="JEngine\UI\UIKit\UIUtility.cs" />
-    <Compile Include="JEngine\UI\UIKit\UIManager\APanelBase.cs" />
-    <Compile Include="JEngine\UI\UIKit\UIManager\UIMgr.cs" />
-    <Compile Include="JEngine\UI\UIKit\UIManager\AItemBase.cs" />
-    <Compile Include="JEngine\UI\UIKit\UIManager\UIPanel\UIReleaseControl.cs" />
-    <Compile Include="JEngine\UI\ResKit\LoadResMgr.cs" />
-    <Compile Include="JEngine\UI\ResKit\AResRefer.cs" />
-    <Compile Include="JEngine\UI\ResKit\GameResMgr.cs" />
-    <Compile Include="JEngine\UI\ResKit\ReferInfo.cs" />
-    <Compile Include="JEngine\UI\ResKit\AssetTaskNode.cs" />
-    <Compile Include="JEngine\UI\ResKit\ResPath.cs" />
-    <Compile Include="JEngine\UI\ResKit\UIResRefer.cs" />
-    <Compile Include="JEngine\UI\JUI.cs" />
     <Compile Include="JEngine\Core\Singleton.cs" />
-    <Compile Include="JEngine\UI\UIKit\UIExpand\UIGroup.cs" />
-    <Compile Include="JEngine\UI\UIRootView.cs" />
     <Compile Include="JEngine\Event\JEvent.cs" />
     <Compile Include="JEngine\Event\EventEnum.cs" />
     <Compile Include="JEngine\Event\EventAttributes.cs" />
     <Compile Include="JEngine\Core\JExtensions.cs" />
     <Compile Include="JEngine\Net\JWebSocket.cs" />
-    <Compile Include="JEngine\Examples\Core\AutoBindDemo.cs" />
     <Compile Include="JEngine\Examples\Core\ConvertDemo.cs" />
     <Compile Include="JEngine\Examples\Core\CrossDomainDemo.cs" />
     <Compile Include="JEngine\Examples\Core\InstantiateDemo.cs" />
@@ -71,14 +66,19 @@
     <Compile Include="JEngine\Examples\Event\EventDemo.cs" />
     <Compile Include="JEngine\Examples\Net\JWebSocketDemo.cs" />
     <Compile Include="JEngine\Examples\UI\JUIExample.cs" />
-    <Compile Include="JEngine\Examples\UI\JumpToUIDemo.cs" />
-    <Compile Include="JEngine\Examples\UI\View\JBtnView.cs" />
-    <Compile Include="JEngine\Examples\UI\View\JTestItem.cs" />
-    <Compile Include="JEngine\Examples\UI\View\JTestView.cs" />
     <Compile Include="JEngine\Examples\Core\ComplexLitJsonDemo.cs" />
     <Compile Include="JEngine\Examples\Data\HotData.cs" />
     <Compile Include="JEngine\Examples\Core\ProtobufDemo.cs" />
-    <Compile Include="Proto2cs\test.cs" />
+    <Compile Include="JEngine\UI\JUI.cs" />
+    <Compile Include="JEngine\Examples\Core\AntiCheatDemo.cs" />
+    <Compile Include="JEngine\Examples\Core\MultiInheritenceDemo.cs" />
+    <Compile Include="JEngine\Examples\Core\ClassBindDemo.cs" />
+    <Compile Include="Proto2cs\JEngine_Examples_DataClass.cs" />
+    <Compile Include="JEngine\UI\JUIExtensions.cs" />
+    <Compile Include="JEngine\Core\JValidation.cs" />
+    <Compile Include="JEngine\Examples\Core\ValidationDemo.cs" />
+    <Compile Include="JEngine\Examples\Core\AddOnDemo.cs" />
+    <Compile Include="BPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine.UIModule">
@@ -124,6 +124,9 @@
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\Library\ScriptAssemblies\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Ben.Demystifier">
+      <HintPath>..\Assets\Dependencies\Ben.Demystifier\Ben.Demystifier.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

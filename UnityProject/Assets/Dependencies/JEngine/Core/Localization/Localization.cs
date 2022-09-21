@@ -23,16 +23,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using libx;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using System.Globalization;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using BM;
 
 namespace JEngine.Core
 {
@@ -43,7 +42,7 @@ namespace JEngine.Core
         private static Dictionary<string, Dictionary<string, string>> _phrases;//language,key,value
 
         private static string _language;
-        private const string CsvLoc = "Localization.csv";
+        private const string CsvLoc = "Assets/HotUpdateResources/TextAsset/Localization.csv";
 
         public static string CurrentLanguage
         {
@@ -55,25 +54,20 @@ namespace JEngine.Core
         
         private static void Init()
         {
-            if (!Object.FindObjectOfType<Assets>())
-            {
-                Log.PrintError("请先初始化XAsset");
-                return;
-            }
             _phrases = new Dictionary<string, Dictionary<string, string>>(0);
             ChangeLanguage(PlayerPrefs.GetString("JEngine.Core.Localization.language",CultureInfo.InstalledUICulture.Name));
-            
-            var req = Assets.LoadAsset(CsvLoc,typeof(TextAsset));
-            if (req == null)
+
+            var file = (TextAsset)AssetMgr.Load(CsvLoc, AssetComponentConfig.DefaultBundlePackageName);
+            if (file == null)
             {
                 Log.PrintError("Localization模块无效，因为没有获取到表格文件");
                 return;
             }
-            TextAsset file = (TextAsset)req.asset;
             
             //获取全部行
             List<string> allRows = new List<string>(0);
-            byte[] array = Encoding.UTF8.GetBytes(file.text);            
+            byte[] array = Encoding.UTF8.GetBytes(file.text);     
+            AssetMgr.Unload(CsvLoc);
             MemoryStream stream = new MemoryStream(array);
             StreamReader sr = new StreamReader(stream, Encoding.Default);
             String line;
@@ -167,17 +161,18 @@ namespace JEngine.Core
                 Init();
             }
             
-            if (_phrases != null && !_phrases.TryGetValue(_language,out var dic))
+            if (_phrases != null && !_phrases.ContainsKey(_language))
             {
-                string newLang = _phrases.Keys.ToList().Find(k => k.Split('-')[0] == _language.Split('-')[0]);
+                string newLang = _phrases.Keys.ToList().Find(k => k.StartsWith($"{_language.Split('-')[0]}-"));
                 if (_language != "zh-cn" && newLang == null)
                 {
                     newLang = "zh-cn";
                 }
-                else
+                else if (newLang == null)
                 {
-                    return $"[invalid language: {_language}]";;
+                    return $"[invalid language: {_language}]";
                 }
+
                 Log.PrintError($"不存在语言{_language}，自动替换为{newLang}");
                 ChangeLanguage(newLang);
             }

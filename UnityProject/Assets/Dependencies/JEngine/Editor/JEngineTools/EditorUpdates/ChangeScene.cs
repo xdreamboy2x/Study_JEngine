@@ -1,3 +1,6 @@
+using System.Threading.Tasks;
+using JEngine.Core;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,19 +12,47 @@ namespace JEngine.Editor
     internal static class ChangeScene
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
-        private static void DoChange()
+        private static async void DoChange()
         {
-            var prefix = $"JEngine.Editor.Setting.{Application.productName}";
+            var prefix = $"JEngine.Editor.Setting.{Application.productName}.{SetData.GetPrefix()}.";
             var jump = PlayerPrefs.GetString($"{prefix}.JumpStartUpScene", "1") == "1";
             if (!jump) return;
             var scene = SceneManager.GetActiveScene();
-            if (scene.path != Setting.StartUpScenePath)
+            var path = PlayerPrefs.GetString($"{prefix}.StartUpScenePath", "Assets/Init.unity");
+            if (scene.path != path)
             {
-                string name = Setting.StartUpScenePath
-                    .Substring(Setting.StartUpScenePath.LastIndexOf('/') + 1)
+                string name = path
+                    .Substring(path.LastIndexOf('/') + 1)
                     .Replace(".unity", "");
 
                 SceneManager.LoadScene(name);
+                while (SceneManager.GetActiveScene().name != name)
+                {
+                    if (!Application.isPlaying) return;
+                    await TimeMgr.Delay(10);
+                }
+                DynamicGI.UpdateEnvironment();
+            }
+
+            var key = Object.FindObjectOfType<InitJEngine>().key;
+            var k = PlayerPrefs.GetString($"{prefix}.EncryptPassword", "");
+            if (string.IsNullOrEmpty(k))
+            {
+                PlayerPrefs.SetString($"{prefix}.EncryptPassword", key);
+            }
+            else
+            {
+                if (key != k)
+                {
+                    var res = EditorUtility.DisplayDialog(
+                        string.Format(Setting.GetString(SettingString.MismatchDLLKeyTitle), k, key),
+                        string.Format(Setting.GetString(SettingString.MismatchDLLKeyContext), k, key),
+                        Setting.GetString(SettingString.Ok), Setting.GetString(SettingString.Ignore));
+                    if (res)
+                    {
+                        Object.FindObjectOfType<InitJEngine>().key = k;
+                    }
+                }
             }
         }
     }

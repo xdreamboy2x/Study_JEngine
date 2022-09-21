@@ -1,22 +1,18 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
+using JEngine.Core;
 using UnityEngine;
 using AppDomain = ILRuntime.Runtime.Enviorment.AppDomain;
 
 public class MonoBehaviourAdapter : CrossBindingAdaptor
 {
-    public override Type BaseCLRType
-    {
-        get { return typeof(MonoBehaviour); }
-    }
+    public override Type BaseCLRType => typeof(MonoBehaviour);
 
-    public override Type AdaptorType
-    {
-        get { return typeof(Adaptor); }
-    }
+    public override Type AdaptorType => typeof(Adaptor);
 
     public override object CreateCLRInstance(AppDomain appdomain, ILTypeInstance instance)
     {
@@ -28,10 +24,7 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
     {
         ILTypeInstance instance;
         AppDomain appdomain;
-
-        public bool isJBehaviour;
-        public bool isMonoBehaviour = true;
-
+        
         public Adaptor()
         {
 
@@ -45,116 +38,108 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
 
         public ILTypeInstance ILInstance
         {
-            get { return instance; }
-            set { instance = value; }
+            get => instance;
+            set => instance = value;
         }
 
         public AppDomain AppDomain
         {
-            get { return appdomain; }
-            set { appdomain = value; }
+            get => appdomain;
+            set => appdomain = value;
         }
 
         public void Reset()
         {
-            mAwakeMethodGot = false;
-            mStartMethodGot = false;
-            mUpdateMethodGot = false;
-            mFixedUpdateMethodGot = false;
-            mLateUpdateMethodGot = false;
-            mOnEnableMethodGot = false;
-            mOnDisableMethodGot = false;
-            mDestroyMethodGot = false;
-            mOnTriggerEnterMethodGot = false;
-            mOnTriggerStayMethodGot = false;
-            mOnTriggerExitMethodGot = false;
-            mOnCollisionEnterMethodGot = false;
-            mOnCollisionStayMethodGot = false;
-            mOnCollisionExitMethodGot = false;
-            mOnValidateMethodGot = false;
-            mOnAnimatorMoveMethodGot = false;
-            mOnApplicationFocusMethodGot = false;
-            mOnApplicationPauseMethodGot = false;
-            mOnApplicationQuitMethodGot = false;
-            mOnBecameInvisibleMethodGot = false;
-            mOnBecameVisibleMethodGot = false;
-            mOnDrawGizmosMethodGot = false;
-            mOnJointBreakMethodGot = false;
-            mOnMouseDownMethodGot = false;
-            mOnMouseDragMethodGot = false;
-            mOnMouseEnterMethodGot = false;
-            mOnMouseExitMethodGot = false;
-            mOnMouseOverMethodGot = false;
-            mOnMouseUpMethodGot = false;
-            mOnParticleCollisionMethodGot = false;
-            mOnParticleTriggerMethodGot = false;
-            mOnPostRenderMethodGot = false;
-            mOnPreCullMethodGot = false;
-            mOnPreRenderMethodGot = false;
-            mOnRenderImageMethodGot = false;
-            mOnRenderObjectMethodGot = false;
-            mOnServerInitializedMethodGot = false;
-            mOnAnimatorIKMethodGot = false;
-            mOnAudioFilterReadMethodGot = false;
-            mOnCanvasGroupChangedMethodGot = false;
-            mOnCanvasHierarchyChangedMethodGot = false;
-            mOnCollisionEnter2DMethodGot = false;
-            mOnCollisionExit2DMethodGot = false;
-            mOnCollisionStay2DMethodGot = false;
-            mOnConnectedToServerMethodGot = false;
-            mOnControllerColliderHitMethodGot = false;
-            mOnDrawGizmosSelectedMethodGot = false;
-            mOnGUIMethodGot = false;
-            mOnJointBreak2DMethodGot = false;
-            mOnParticleSystemStoppedMethodGot = false;
-            mOnTransformChildrenChangedMethodGot = false;
-            mOnTransformParentChangedMethodGot = false;
-            mOnTriggerEnter2DMethodGot = false;
-            mOnTriggerExit2DMethodGot = false;
-            mOnTriggerStay2DMethodGot = false;
-            mOnWillRenderObjectMethodGot = false;
-            mOnBeforeTransformParentChangedMethodGot = false;
-            mOnDidApplyAnimationPropertiesMethodGot = false;
-            mOnMouseUpAsButtonMethodGot = false;
-            mOnParticleUpdateJobScheduledMethodGot = false;
-            mOnRectTransformDimensionsChangeMethodGot = false;
+            _mOnEnableMethodGot = false;
+            _mOnDisableMethodGot = false;
+            _mDestroyMethodGot = false;
+            _mOnTriggerEnterMethodGot = false;
+            _mOnTriggerStayMethodGot = false;
+            _mOnTriggerExitMethodGot = false;
+            _mOnCollisionEnterMethodGot = false;
+            _mOnCollisionStayMethodGot = false;
+            _mOnCollisionExitMethodGot = false;
+            _mOnValidateMethodGot = false;
+            _mOnAnimatorMoveMethodGot = false;
+            _mOnApplicationFocusMethodGot = false;
+            _mOnApplicationPauseMethodGot = false;
+            _mOnApplicationQuitMethodGot = false;
+            _mOnBecameInvisibleMethodGot = false;
+            _mOnBecameVisibleMethodGot = false;
+            _mOnDrawGizmosMethodGot = false;
+            _mOnJointBreakMethodGot = false;
+            _mOnMouseDownMethodGot = false;
+            _mOnMouseDragMethodGot = false;
+            _mOnMouseEnterMethodGot = false;
+            _mOnMouseExitMethodGot = false;
+            _mOnMouseOverMethodGot = false;
+            _mOnMouseUpMethodGot = false;
+            _mOnParticleCollisionMethodGot = false;
+            _mOnParticleTriggerMethodGot = false;
+            _mOnPostRenderMethodGot = false;
+            _mOnPreCullMethodGot = false;
+            _mOnPreRenderMethodGot = false;
+            _mOnRenderImageMethodGot = false;
+            _mOnRenderObjectMethodGot = false;
+            _mOnServerInitializedMethodGot = false;
+            _mOnAnimatorIKMethodGot = false;
+            _mOnAudioFilterReadMethodGot = false;
+            _mOnCanvasGroupChangedMethodGot = false;
+            _mOnCanvasHierarchyChangedMethodGot = false;
+            _mOnCollisionEnter2DMethodGot = false;
+            _mOnCollisionExit2DMethodGot = false;
+            _mOnCollisionStay2DMethodGot = false;
+            _mOnConnectedToServerMethodGot = false;
+            _mOnControllerColliderHitMethodGot = false;
+            _mOnDrawGizmosSelectedMethodGot = false;
+            _mOnGUIMethodGot = false;
+            _mOnJointBreak2DMethodGot = false;
+            _mOnParticleSystemStoppedMethodGot = false;
+            _mOnTransformChildrenChangedMethodGot = false;
+            _mOnTransformParentChangedMethodGot = false;
+            _mOnTriggerEnter2DMethodGot = false;
+            _mOnTriggerExit2DMethodGot = false;
+            _mOnTriggerStay2DMethodGot = false;
+            _mOnWillRenderObjectMethodGot = false;
+            _mOnBeforeTransformParentChangedMethodGot = false;
+            _mOnDidApplyAnimationPropertiesMethodGot = false;
+            _mOnMouseUpAsButtonMethodGot = false;
+            _mOnParticleUpdateJobScheduledMethodGot = false;
+            _mOnRectTransformDimensionsChangeMethodGot = false;
             instance = null;
             appdomain = null;
-            destoryed = false;
+            _destoryed = false;
             awaked = false;
             isAwaking = false;
         }
 
-        object[] param0 = new object[0];
-        private bool destoryed;
+        private bool _destoryed;
 
-        IMethod mAwakeMethod;
-        bool mAwakeMethodGot;
+        IMethod _mAwakeMethod;
         public bool awaked;
         public bool isAwaking;
 
         public async void Awake()
         {
+            if (awaked)
+            {
+                return;
+            }
+
             try
             {
                 //Unity会在ILRuntime准备好这个实例前调用Awake，所以这里暂时先不掉用
                 if (instance != null)
                 {
-                    if (!mAwakeMethodGot)
-                    {
-                        mAwakeMethod = instance.Type.GetMethod("Awake", 0);
-                        mAwakeMethodGot = true;
-                    }
-
-                    if (mAwakeMethod != null && !isAwaking)
+                    if (!isAwaking)
                     {
                         isAwaking = true;
                         //没激活就别awake
                         try
                         {
-                            while (Application.isPlaying && !destoryed && !gameObject.activeInHierarchy)
+                            while (Application.isPlaying && !_destoryed && !gameObject.activeInHierarchy)
                             {
-                                await Task.Delay(20);
+                                await TimeMgr.Delay(1);
                             }
                         }
                         catch (MissingReferenceException) //如果gameObject被删了，就会触发这个，这个时候就直接return了
@@ -162,15 +147,27 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
                             return;
                         }
 
-                        if (destoryed || !Application.isPlaying)
+                        if (_destoryed || !Application.isPlaying)
                         {
                             return;
                         }
 
-                        appdomain.Invoke(mAwakeMethod, instance, param0);
+                        var type = instance.Type.ReflectionType;
+                        //直接Invoke
+                        GetMethodInfo(type, "Awake")?.Invoke(instance, ConstMgr.NullObjects);
+                        LifeCycleMgr.Instance.AddAwakeItem(instance,  null);//这一帧空出来
+                        //就mono订阅start和update事件
+                        if (enabled)
+                        {
+                            LifeCycleMgr.Instance.AddOnEnableItem(instance, GetMethodInfo(type, "OnEnable"));
+                        }
+                        LifeCycleMgr.Instance.AddStartItem(instance, GetMethodInfo(type, "Start"));
+                        LifeCycleMgr.Instance.AddFixedUpdateItem(instance, GetMethodInfo(type, "FixedUpdate"));
+                        LifeCycleMgr.Instance.AddUpdateItem(instance, GetMethodInfo(type, "Update"));
+                        LifeCycleMgr.Instance.AddLateUpdateItem(instance, GetMethodInfo(type, "LateUpdate"));
+
                         isAwaking = false;
                         awaked = true;
-                        OnEnable();
                     }
                 }
             }
@@ -181,1312 +178,1158 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
             }
         }
 
-        IMethod mStartMethod;
-        bool mStartMethodGot;
-
-        async void Start()
+        /// <summary>
+        /// 只注册没参数的方法，且必须在热更层定义（如Awake,Start,OnEnable,Update等）
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="funcName"></param>
+        /// <returns></returns>
+        private MethodInfo GetMethodInfo(Type type, string funcName)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (instance == null)
+            if (instance.Type.GetMethod(funcName, 0) != null)
             {
-                await Task.Delay(1);
+                return type.GetMethod(funcName);
             }
 
-            if (!mStartMethodGot)
-            {
-                mStartMethod = instance.Type.GetMethod("Start", 0);
-                mStartMethodGot = true;
-            }
-
-            if (mStartMethod != null)
-            {
-                appdomain.Invoke(mStartMethod, instance, param0);
-            }
+            return null;
         }
 
-        IMethod mUpdateMethod;
-        bool mUpdateMethodGot;
-
-        void Update()
-        {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mUpdateMethodGot)
-            {
-                mUpdateMethod = instance.Type.GetMethod("Update", 0);
-                mUpdateMethodGot = true;
-            }
-
-            if (mUpdateMethod != null)
-            {
-                appdomain.Invoke(mUpdateMethod, instance, param0);
-            }
-
-        }
-
-        IMethod mFixedUpdateMethod;
-        bool mFixedUpdateMethodGot;
-
-        void FixedUpdate()
-        {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mFixedUpdateMethodGot)
-            {
-                mFixedUpdateMethod = instance.Type.GetMethod("FixedUpdate", 0);
-                mFixedUpdateMethodGot = true;
-            }
-
-            if (mFixedUpdateMethod != null)
-            {
-                appdomain.Invoke(mFixedUpdateMethod, instance, param0);
-            }
-        }
-
-        IMethod mLateUpdateMethod;
-        bool mLateUpdateMethodGot;
-
-        void LateUpdate()
-        {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mLateUpdateMethodGot)
-            {
-                mLateUpdateMethod = instance.Type.GetMethod("LateUpdate", 0);
-                mLateUpdateMethodGot = true;
-            }
-
-            if (mLateUpdateMethod != null)
-            {
-                appdomain.Invoke(mLateUpdateMethod, instance, param0);
-            }
-        }
-
-        IMethod mOnEnableMethod;
-        bool mOnEnableMethodGot;
+        IMethod _mOnEnableMethod;
+        bool _mOnEnableMethodGot;
 
         void OnEnable()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (instance != null)
+            if (instance != null && awaked)
             {
-                if (!mOnEnableMethodGot)
+                if (!_mOnEnableMethodGot)
                 {
-                    mOnEnableMethod = instance.Type.GetMethod("OnEnable", 0);
-                    mOnEnableMethodGot = true;
+                    _mOnEnableMethod = instance.Type.GetMethod("OnEnable", 0);
+                    _mOnEnableMethodGot = true;
                 }
 
-                if (mOnEnableMethod != null && awaked)
+                if (_mOnEnableMethod != null && awaked)
                 {
-                    appdomain.Invoke(mOnEnableMethod, instance, param0);
+                    appdomain.Invoke(_mOnEnableMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnDisableMethod;
-        bool mOnDisableMethodGot;
+        IMethod _mOnDisableMethod;
+        bool _mOnDisableMethodGot;
 
         void OnDisable()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnDisableMethodGot)
+                if (!_mOnDisableMethodGot)
                 {
-                    mOnDisableMethod = instance.Type.GetMethod("OnDisable", 0);
-                    mOnDisableMethodGot = true;
+                    _mOnDisableMethod = instance.Type.GetMethod("OnDisable", 0);
+                    _mOnDisableMethodGot = true;
                 }
 
-                if (mOnDisableMethod != null)
+                if (_mOnDisableMethod != null)
                 {
-                    appdomain.Invoke(mOnDisableMethod, instance, param0);
+                    appdomain.Invoke(_mOnDisableMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mDestroyMethod;
-        bool mDestroyMethodGot;
+        IMethod _mDestroyMethod;
+        bool _mDestroyMethodGot;
 
         void OnDestroy()
         {
-            destoryed = true;
-
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mDestroyMethodGot)
+            _destoryed = true;
+            LifeCycleMgr.Instance.RemoveUpdateItem(instance);
+            LifeCycleMgr.Instance.RemoveFixedUpdateItem(instance);
+            LifeCycleMgr.Instance.RemoveLateUpdateItem(instance);
+            
+            if (!_mDestroyMethodGot)
             {
-                mDestroyMethod = instance.Type.GetMethod("OnDestroy", 0);
-                mDestroyMethodGot = true;
+                _mDestroyMethod = instance.Type.GetMethod("OnDestroy", 0);
+                _mDestroyMethodGot = true;
             }
 
-            if (mDestroyMethod != null)
+            if (_mDestroyMethod != null)
             {
-                appdomain.Invoke(mDestroyMethod, instance, param0);
+                appdomain.Invoke(_mDestroyMethod, instance, ConstMgr.NullObjects);
             }
+            
+            //销毁ILTypeIns
+            instance = null;
         }
 
-        IMethod mOnTriggerEnterMethod;
-        bool mOnTriggerEnterMethodGot;
+        IMethod _mOnTriggerEnterMethod;
+        bool _mOnTriggerEnterMethodGot;
 
         void OnTriggerEnter(Collider other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnTriggerEnterMethodGot)
+            if (!_mOnTriggerEnterMethodGot)
             {
-                mOnTriggerEnterMethod = instance.Type.GetMethod("OnTriggerEnter", 1);
-                mOnTriggerEnterMethodGot = true;
+                _mOnTriggerEnterMethod = instance.Type.GetMethod("OnTriggerEnter", 1);
+                _mOnTriggerEnterMethodGot = true;
             }
 
-            if (mOnTriggerEnterMethod != null)
+            if (_mOnTriggerEnterMethod != null)
             {
-                appdomain.Invoke(mOnTriggerEnterMethod, instance, other);
+                appdomain.Invoke(_mOnTriggerEnterMethod, instance, other);
             }
         }
 
-        IMethod mOnTriggerStayMethod;
-        bool mOnTriggerStayMethodGot;
+        IMethod _mOnTriggerStayMethod;
+        bool _mOnTriggerStayMethodGot;
 
         void OnTriggerStay(Collider other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnTriggerStayMethodGot)
+            if (!_mOnTriggerStayMethodGot)
             {
-                mOnTriggerStayMethod = instance.Type.GetMethod("OnTriggerStay", 1);
-                mOnTriggerStayMethodGot = true;
+                _mOnTriggerStayMethod = instance.Type.GetMethod("OnTriggerStay", 1);
+                _mOnTriggerStayMethodGot = true;
             }
 
-            if (mOnTriggerStayMethod != null)
+            if (_mOnTriggerStayMethod != null)
             {
-                appdomain.Invoke(mOnTriggerStayMethod, instance, other);
+                appdomain.Invoke(_mOnTriggerStayMethod, instance, other);
             }
         }
 
-        IMethod mOnTriggerExitMethod;
-        bool mOnTriggerExitMethodGot;
+        IMethod _mOnTriggerExitMethod;
+        bool _mOnTriggerExitMethodGot;
 
         void OnTriggerExit(Collider other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnTriggerExitMethodGot)
+            if (!_mOnTriggerExitMethodGot)
             {
-                mOnTriggerExitMethod = instance.Type.GetMethod("OnTriggerExit", 1);
-                mOnTriggerExitMethodGot = true;
+                _mOnTriggerExitMethod = instance.Type.GetMethod("OnTriggerExit", 1);
+                _mOnTriggerExitMethodGot = true;
             }
 
-            if (mOnTriggerExitMethod != null)
+            if (_mOnTriggerExitMethod != null)
             {
-                appdomain.Invoke(mOnTriggerExitMethod, instance, other);
+                appdomain.Invoke(_mOnTriggerExitMethod, instance, other);
             }
         }
 
-        IMethod mOnCollisionEnterMethod;
-        bool mOnCollisionEnterMethodGot;
+        IMethod _mOnCollisionEnterMethod;
+        bool _mOnCollisionEnterMethodGot;
 
         void OnCollisionEnter(Collision other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnCollisionEnterMethodGot)
+            if (!_mOnCollisionEnterMethodGot)
             {
-                mOnCollisionEnterMethod = instance.Type.GetMethod("OnCollisionEnter", 1);
-                mOnCollisionEnterMethodGot = true;
+                _mOnCollisionEnterMethod = instance.Type.GetMethod("OnCollisionEnter", 1);
+                _mOnCollisionEnterMethodGot = true;
             }
 
-            if (mOnCollisionEnterMethod != null)
+            if (_mOnCollisionEnterMethod != null)
             {
-                appdomain.Invoke(mOnCollisionEnterMethod, instance, other);
+                appdomain.Invoke(_mOnCollisionEnterMethod, instance, other);
             }
         }
 
-        IMethod mOnCollisionStayMethod;
-        bool mOnCollisionStayMethodGot;
+        IMethod _mOnCollisionStayMethod;
+        bool _mOnCollisionStayMethodGot;
 
         void OnCollisionStay(Collision other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnCollisionStayMethodGot)
+            if (!_mOnCollisionStayMethodGot)
             {
-                mOnCollisionStayMethod = instance.Type.GetMethod("OnCollisionStay", 1);
-                mOnCollisionStayMethodGot = true;
+                _mOnCollisionStayMethod = instance.Type.GetMethod("OnCollisionStay", 1);
+                _mOnCollisionStayMethodGot = true;
             }
 
-            if (mOnCollisionStayMethod != null)
+            if (_mOnCollisionStayMethod != null)
             {
-                appdomain.Invoke(mOnCollisionStayMethod, instance, other);
+                appdomain.Invoke(_mOnCollisionStayMethod, instance, other);
             }
         }
 
-        IMethod mOnCollisionExitMethod;
-        bool mOnCollisionExitMethodGot;
+        IMethod _mOnCollisionExitMethod;
+        bool _mOnCollisionExitMethodGot;
 
         void OnCollisionExit(Collision other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnCollisionExitMethodGot)
+            if (!_mOnCollisionExitMethodGot)
             {
-                mOnCollisionExitMethod = instance.Type.GetMethod("OnCollisionExit", 1);
-                mOnCollisionExitMethodGot = true;
+                _mOnCollisionExitMethod = instance.Type.GetMethod("OnCollisionExit", 1);
+                _mOnCollisionExitMethodGot = true;
             }
 
-            if (mOnCollisionExitMethod != null)
+            if (_mOnCollisionExitMethod != null)
             {
-                appdomain.Invoke(mOnCollisionExitMethod, instance, other);
+                appdomain.Invoke(_mOnCollisionExitMethod, instance, other);
             }
         }
 
 
-        IMethod mOnValidateMethod;
-        bool mOnValidateMethodGot;
+        IMethod _mOnValidateMethod;
+        bool _mOnValidateMethodGot;
 
         void OnValidate()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnValidateMethodGot)
+                if (!_mOnValidateMethodGot)
                 {
-                    mOnValidateMethod = instance.Type.GetMethod("OnValidate", 0);
-                    mOnValidateMethodGot = true;
+                    _mOnValidateMethod = instance.Type.GetMethod("OnValidate", 0);
+                    _mOnValidateMethodGot = true;
                 }
 
-                if (mOnValidateMethod != null)
+                if (_mOnValidateMethod != null)
                 {
-                    appdomain.Invoke(mOnValidateMethod, instance, param0);
+                    appdomain.Invoke(_mOnValidateMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnAnimatorMoveMethod;
-        bool mOnAnimatorMoveMethodGot;
+        IMethod _mOnAnimatorMoveMethod;
+        bool _mOnAnimatorMoveMethodGot;
 
         void OnAnimatorMove()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnAnimatorMoveMethodGot)
+                if (!_mOnAnimatorMoveMethodGot)
                 {
-                    mOnAnimatorMoveMethod = instance.Type.GetMethod("OnAnimatorMove", 0);
-                    mOnAnimatorMoveMethodGot = true;
+                    _mOnAnimatorMoveMethod = instance.Type.GetMethod("OnAnimatorMove", 0);
+                    _mOnAnimatorMoveMethodGot = true;
                 }
 
-                if (mOnAnimatorMoveMethod != null)
+                if (_mOnAnimatorMoveMethod != null)
                 {
-                    appdomain.Invoke(mOnAnimatorMoveMethod, instance, param0);
+                    appdomain.Invoke(_mOnAnimatorMoveMethod, instance, ConstMgr.NullObjects);
+                }
+                else
+                {
+                    var animator = gameObject.GetComponent<Animator>();
+                    if (animator != null)
+                    {
+                        animator.ApplyBuiltinRootMotion();
+                    }
                 }
             }
         }
 
-        IMethod mOnApplicationFocusMethod;
-        bool mOnApplicationFocusMethodGot;
+        IMethod _mOnApplicationFocusMethod;
+        bool _mOnApplicationFocusMethodGot;
 
         void OnApplicationFocus(bool hasFocus)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnApplicationFocusMethodGot)
+                if (!_mOnApplicationFocusMethodGot)
                 {
-                    mOnApplicationFocusMethod = instance.Type.GetMethod("OnApplicationFocus", 1);
-                    mOnApplicationFocusMethodGot = true;
+                    _mOnApplicationFocusMethod = instance.Type.GetMethod("OnApplicationFocus", 1);
+                    _mOnApplicationFocusMethodGot = true;
                 }
 
-                if (mOnApplicationFocusMethod != null)
+                if (_mOnApplicationFocusMethod != null)
                 {
-                    appdomain.Invoke(mOnApplicationFocusMethod, instance, hasFocus);
+                    appdomain.Invoke(_mOnApplicationFocusMethod, instance, hasFocus);
                 }
             }
         }
 
-        IMethod mOnApplicationPauseMethod;
-        bool mOnApplicationPauseMethodGot;
+        IMethod _mOnApplicationPauseMethod;
+        bool _mOnApplicationPauseMethodGot;
 
         void OnApplicationPause(bool pauseStatus)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnApplicationPauseMethodGot)
+                if (!_mOnApplicationPauseMethodGot)
                 {
-                    mOnApplicationPauseMethod = instance.Type.GetMethod("OnApplicationPause", 1);
-                    mOnApplicationPauseMethodGot = true;
+                    _mOnApplicationPauseMethod = instance.Type.GetMethod("OnApplicationPause", 1);
+                    _mOnApplicationPauseMethodGot = true;
                 }
 
-                if (mOnApplicationPauseMethod != null)
+                if (_mOnApplicationPauseMethod != null)
                 {
-                    appdomain.Invoke(mOnApplicationPauseMethod, instance, pauseStatus);
+                    appdomain.Invoke(_mOnApplicationPauseMethod, instance, pauseStatus);
                 }
             }
         }
 
-        IMethod mOnApplicationQuitMethod;
-        bool mOnApplicationQuitMethodGot;
+        IMethod _mOnApplicationQuitMethod;
+        bool _mOnApplicationQuitMethodGot;
 
         void OnApplicationQuit()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnApplicationQuitMethodGot)
+                if (!_mOnApplicationQuitMethodGot)
                 {
-                    mOnApplicationQuitMethod = instance.Type.GetMethod("OnApplicationQuit", 0);
-                    mOnApplicationQuitMethodGot = true;
+                    _mOnApplicationQuitMethod = instance.Type.GetMethod("OnApplicationQuit", 0);
+                    _mOnApplicationQuitMethodGot = true;
                 }
 
-                if (mOnApplicationQuitMethod != null)
+                if (_mOnApplicationQuitMethod != null)
                 {
-                    appdomain.Invoke(mOnApplicationQuitMethod, instance, param0);
+                    appdomain.Invoke(_mOnApplicationQuitMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnBecameInvisibleMethod;
-        bool mOnBecameInvisibleMethodGot;
+        IMethod _mOnBecameInvisibleMethod;
+        bool _mOnBecameInvisibleMethodGot;
 
         void OnBecameInvisible()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnBecameInvisibleMethodGot)
+                if (!_mOnBecameInvisibleMethodGot)
                 {
-                    mOnBecameInvisibleMethod = instance.Type.GetMethod("OnBecameInvisible", 0);
-                    mOnBecameInvisibleMethodGot = true;
+                    _mOnBecameInvisibleMethod = instance.Type.GetMethod("OnBecameInvisible", 0);
+                    _mOnBecameInvisibleMethodGot = true;
                 }
 
-                if (mOnBecameInvisibleMethod != null)
+                if (_mOnBecameInvisibleMethod != null)
                 {
-                    appdomain.Invoke(mOnBecameInvisibleMethod, instance, param0);
+                    appdomain.Invoke(_mOnBecameInvisibleMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnBecameVisibleMethod;
-        bool mOnBecameVisibleMethodGot;
+        IMethod _mOnBecameVisibleMethod;
+        bool _mOnBecameVisibleMethodGot;
 
         void OnBecameVisible()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnBecameVisibleMethodGot)
+                if (!_mOnBecameVisibleMethodGot)
                 {
-                    mOnBecameVisibleMethod = instance.Type.GetMethod("OnBecameVisible", 0);
-                    mOnBecameVisibleMethodGot = true;
+                    _mOnBecameVisibleMethod = instance.Type.GetMethod("OnBecameVisible", 0);
+                    _mOnBecameVisibleMethodGot = true;
                 }
 
-                if (mOnBecameVisibleMethod != null)
+                if (_mOnBecameVisibleMethod != null)
                 {
-                    appdomain.Invoke(mOnBecameVisibleMethod, instance, param0);
+                    appdomain.Invoke(_mOnBecameVisibleMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnDrawGizmosMethod;
-        bool mOnDrawGizmosMethodGot;
+        IMethod _mOnDrawGizmosMethod;
+        bool _mOnDrawGizmosMethodGot;
 
         void OnDrawGizmos()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnDrawGizmosMethodGot)
+                if (!_mOnDrawGizmosMethodGot)
                 {
-                    mOnDrawGizmosMethod = instance.Type.GetMethod("OnDrawGizmos", 0);
-                    mOnDrawGizmosMethodGot = true;
+                    _mOnDrawGizmosMethod = instance.Type.GetMethod("OnDrawGizmos", 0);
+                    _mOnDrawGizmosMethodGot = true;
                 }
 
-                if (mOnDrawGizmosMethod != null)
+                if (_mOnDrawGizmosMethod != null)
                 {
-                    appdomain.Invoke(mOnDrawGizmosMethod, instance, param0);
+                    appdomain.Invoke(_mOnDrawGizmosMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnJointBreakMethod;
-        bool mOnJointBreakMethodGot;
+        IMethod _mOnJointBreakMethod;
+        bool _mOnJointBreakMethodGot;
 
         void OnJointBreak(float breakForce)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnJointBreakMethodGot)
+                if (!_mOnJointBreakMethodGot)
                 {
-                    mOnJointBreakMethod = instance.Type.GetMethod("OnJointBreak", 1);
-                    mOnJointBreakMethodGot = true;
+                    _mOnJointBreakMethod = instance.Type.GetMethod("OnJointBreak", 1);
+                    _mOnJointBreakMethodGot = true;
                 }
 
-                if (mOnJointBreakMethod != null)
+                if (_mOnJointBreakMethod != null)
                 {
-                    appdomain.Invoke(mOnJointBreakMethod, instance, breakForce);
+                    appdomain.Invoke(_mOnJointBreakMethod, instance, breakForce);
                 }
             }
         }
 
-        IMethod mOnMouseDownMethod;
-        bool mOnMouseDownMethodGot;
+        IMethod _mOnMouseDownMethod;
+        bool _mOnMouseDownMethodGot;
 
         void OnMouseDown()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseDownMethodGot)
+                if (!_mOnMouseDownMethodGot)
                 {
-                    mOnMouseDownMethod = instance.Type.GetMethod("OnMouseDown", 0);
-                    mOnMouseDownMethodGot = true;
+                    _mOnMouseDownMethod = instance.Type.GetMethod("OnMouseDown", 0);
+                    _mOnMouseDownMethodGot = true;
                 }
 
-                if (mOnMouseDownMethod != null)
+                if (_mOnMouseDownMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseDownMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseDownMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnMouseDragMethod;
-        bool mOnMouseDragMethodGot;
+        IMethod _mOnMouseDragMethod;
+        bool _mOnMouseDragMethodGot;
 
         void OnMouseDrag()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseDragMethodGot)
+                if (!_mOnMouseDragMethodGot)
                 {
-                    mOnMouseDragMethod = instance.Type.GetMethod("OnMouseDrag", 0);
-                    mOnMouseDragMethodGot = true;
+                    _mOnMouseDragMethod = instance.Type.GetMethod("OnMouseDrag", 0);
+                    _mOnMouseDragMethodGot = true;
                 }
 
-                if (mOnMouseDragMethod != null)
+                if (_mOnMouseDragMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseDragMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseDragMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnMouseEnterMethod;
-        bool mOnMouseEnterMethodGot;
+        IMethod _mOnMouseEnterMethod;
+        bool _mOnMouseEnterMethodGot;
 
         void OnMouseEnter()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseEnterMethodGot)
+                if (!_mOnMouseEnterMethodGot)
                 {
-                    mOnMouseEnterMethod = instance.Type.GetMethod("OnMouseEnter", 0);
-                    mOnMouseEnterMethodGot = true;
+                    _mOnMouseEnterMethod = instance.Type.GetMethod("OnMouseEnter", 0);
+                    _mOnMouseEnterMethodGot = true;
                 }
 
-                if (mOnMouseEnterMethod != null)
+                if (_mOnMouseEnterMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseEnterMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseEnterMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnMouseExitMethod;
-        bool mOnMouseExitMethodGot;
+        IMethod _mOnMouseExitMethod;
+        bool _mOnMouseExitMethodGot;
 
         void OnMouseExit()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseExitMethodGot)
+                if (!_mOnMouseExitMethodGot)
                 {
-                    mOnMouseExitMethod = instance.Type.GetMethod("OnMouseExit", 0);
-                    mOnMouseExitMethodGot = true;
+                    _mOnMouseExitMethod = instance.Type.GetMethod("OnMouseExit", 0);
+                    _mOnMouseExitMethodGot = true;
                 }
 
-                if (mOnMouseExitMethod != null)
+                if (_mOnMouseExitMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseExitMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseExitMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnMouseOverMethod;
-        bool mOnMouseOverMethodGot;
+        IMethod _mOnMouseOverMethod;
+        bool _mOnMouseOverMethodGot;
 
         void OnMouseOver()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseOverMethodGot)
+                if (!_mOnMouseOverMethodGot)
                 {
-                    mOnMouseOverMethod = instance.Type.GetMethod("OnMouseOver", 0);
-                    mOnMouseOverMethodGot = true;
+                    _mOnMouseOverMethod = instance.Type.GetMethod("OnMouseOver", 0);
+                    _mOnMouseOverMethodGot = true;
                 }
 
-                if (mOnMouseOverMethod != null)
+                if (_mOnMouseOverMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseOverMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseOverMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnMouseUpMethod;
-        bool mOnMouseUpMethodGot;
+        IMethod _mOnMouseUpMethod;
+        bool _mOnMouseUpMethodGot;
 
         void OnMouseUp()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseUpMethodGot)
+                if (!_mOnMouseUpMethodGot)
                 {
-                    mOnMouseUpMethod = instance.Type.GetMethod("OnMouseUp", 0);
-                    mOnMouseUpMethodGot = true;
+                    _mOnMouseUpMethod = instance.Type.GetMethod("OnMouseUp", 0);
+                    _mOnMouseUpMethodGot = true;
                 }
 
-                if (mOnMouseUpMethod != null)
+                if (_mOnMouseUpMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseUpMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseUpMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnParticleCollisionMethod;
-        bool mOnParticleCollisionMethodGot;
+        IMethod _mOnParticleCollisionMethod;
+        bool _mOnParticleCollisionMethodGot;
 
         void OnParticleCollision(GameObject other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnParticleCollisionMethodGot)
+                if (!_mOnParticleCollisionMethodGot)
                 {
-                    mOnParticleCollisionMethod = instance.Type.GetMethod("OnParticleCollision", 1);
-                    mOnParticleCollisionMethodGot = true;
+                    _mOnParticleCollisionMethod = instance.Type.GetMethod("OnParticleCollision", 1);
+                    _mOnParticleCollisionMethodGot = true;
                 }
 
-                if (mOnParticleCollisionMethod != null)
+                if (_mOnParticleCollisionMethod != null)
                 {
-                    appdomain.Invoke(mOnParticleCollisionMethod, instance, other);
+                    appdomain.Invoke(_mOnParticleCollisionMethod, instance, other);
                 }
             }
         }
 
-        IMethod mOnParticleTriggerMethod;
-        bool mOnParticleTriggerMethodGot;
+        IMethod _mOnParticleTriggerMethod;
+        bool _mOnParticleTriggerMethodGot;
 
         void OnParticleTrigger()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnParticleTriggerMethodGot)
+                if (!_mOnParticleTriggerMethodGot)
                 {
-                    mOnParticleTriggerMethod = instance.Type.GetMethod("OnParticleTrigger", 0);
-                    mOnParticleTriggerMethodGot = true;
+                    _mOnParticleTriggerMethod = instance.Type.GetMethod("OnParticleTrigger", 0);
+                    _mOnParticleTriggerMethodGot = true;
                 }
 
-                if (mOnParticleTriggerMethod != null)
+                if (_mOnParticleTriggerMethod != null)
                 {
-                    appdomain.Invoke(mOnParticleTriggerMethod, instance, param0);
+                    appdomain.Invoke(_mOnParticleTriggerMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnPostRenderMethod;
-        bool mOnPostRenderMethodGot;
+        IMethod _mOnPostRenderMethod;
+        bool _mOnPostRenderMethodGot;
 
         void OnPostRender()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnPostRenderMethodGot)
+                if (!_mOnPostRenderMethodGot)
                 {
-                    mOnPostRenderMethod = instance.Type.GetMethod("OnPostRender", 0);
-                    mOnPostRenderMethodGot = true;
+                    _mOnPostRenderMethod = instance.Type.GetMethod("OnPostRender", 0);
+                    _mOnPostRenderMethodGot = true;
                 }
 
-                if (mOnPostRenderMethod != null)
+                if (_mOnPostRenderMethod != null)
                 {
-                    appdomain.Invoke(mOnPostRenderMethod, instance, param0);
+                    appdomain.Invoke(_mOnPostRenderMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnPreCullMethod;
-        bool mOnPreCullMethodGot;
+        IMethod _mOnPreCullMethod;
+        bool _mOnPreCullMethodGot;
 
         void OnPreCull()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnPreCullMethodGot)
+                if (!_mOnPreCullMethodGot)
                 {
-                    mOnPreCullMethod = instance.Type.GetMethod("OnPreCull", 0);
-                    mOnPreCullMethodGot = true;
+                    _mOnPreCullMethod = instance.Type.GetMethod("OnPreCull", 0);
+                    _mOnPreCullMethodGot = true;
                 }
 
-                if (mOnPreCullMethod != null)
+                if (_mOnPreCullMethod != null)
                 {
-                    appdomain.Invoke(mOnPreCullMethod, instance, param0);
+                    appdomain.Invoke(_mOnPreCullMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnPreRenderMethod;
-        bool mOnPreRenderMethodGot;
+        IMethod _mOnPreRenderMethod;
+        bool _mOnPreRenderMethodGot;
 
         void OnPreRender()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnPreRenderMethodGot)
+                if (!_mOnPreRenderMethodGot)
                 {
-                    mOnPreRenderMethod = instance.Type.GetMethod("OnPreRender", 0);
-                    mOnPreRenderMethodGot = true;
+                    _mOnPreRenderMethod = instance.Type.GetMethod("OnPreRender", 0);
+                    _mOnPreRenderMethodGot = true;
                 }
 
-                if (mOnPreRenderMethod != null)
+                if (_mOnPreRenderMethod != null)
                 {
-                    appdomain.Invoke(mOnPreRenderMethod, instance, param0);
+                    appdomain.Invoke(_mOnPreRenderMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnRenderImageMethod;
-        bool mOnRenderImageMethodGot;
-
+        IMethod _mOnRenderImageMethod;
+        bool _mOnRenderImageMethodGot;
+        private bool _isCamera;
+        private bool _hasChecked;
         void OnRenderImage(RenderTexture src, RenderTexture dest)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (instance != null)
+            if (!_hasChecked)
             {
-                if (!mOnRenderImageMethodGot)
+                _isCamera = GetComponent<Camera>() != null;
+                _hasChecked = true;
+            }
+
+            if (_isCamera)
+            {
+                Graphics.Blit(src, dest);
+            }            if (instance != null)
+            {
+                if (!_mOnRenderImageMethodGot)
                 {
-                    mOnRenderImageMethod = instance.Type.GetMethod("OnRenderImage", 2);
-                    mOnRenderImageMethodGot = true;
+                    _mOnRenderImageMethod = instance.Type.GetMethod("OnRenderImage", 2);
+                    _mOnRenderImageMethodGot = true;
                 }
 
-                if (mOnRenderImageMethod != null)
+                if (_mOnRenderImageMethod != null)
                 {
-                    appdomain.Invoke(mOnRenderImageMethod, instance, src, dest);
+                    appdomain.Invoke(_mOnRenderImageMethod, instance, src, dest);
                 }
             }
         }
 
-        IMethod mOnRenderObjectMethod;
-        bool mOnRenderObjectMethodGot;
+        IMethod _mOnRenderObjectMethod;
+        bool _mOnRenderObjectMethodGot;
 
         void OnRenderObject()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnRenderObjectMethodGot)
+                if (!_mOnRenderObjectMethodGot)
                 {
-                    mOnRenderObjectMethod = instance.Type.GetMethod("OnRenderObject", 0);
-                    mOnRenderObjectMethodGot = true;
+                    _mOnRenderObjectMethod = instance.Type.GetMethod("OnRenderObject", 0);
+                    _mOnRenderObjectMethodGot = true;
                 }
 
-                if (mOnRenderObjectMethod != null)
+                if (_mOnRenderObjectMethod != null)
                 {
-                    appdomain.Invoke(mOnRenderObjectMethod, instance, param0);
+                    appdomain.Invoke(_mOnRenderObjectMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnServerInitializedMethod;
-        bool mOnServerInitializedMethodGot;
+        IMethod _mOnServerInitializedMethod;
+        bool _mOnServerInitializedMethodGot;
 
         void OnServerInitialized()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnServerInitializedMethodGot)
+                if (!_mOnServerInitializedMethodGot)
                 {
-                    mOnServerInitializedMethod = instance.Type.GetMethod("OnServerInitialized", 0);
-                    mOnServerInitializedMethodGot = true;
+                    _mOnServerInitializedMethod = instance.Type.GetMethod("OnServerInitialized", 0);
+                    _mOnServerInitializedMethodGot = true;
                 }
 
-                if (mOnServerInitializedMethod != null)
+                if (_mOnServerInitializedMethod != null)
                 {
-                    appdomain.Invoke(mOnServerInitializedMethod, instance, param0);
+                    appdomain.Invoke(_mOnServerInitializedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnAnimatorIKMethod;
-        bool mOnAnimatorIKMethodGot;
+        IMethod _mOnAnimatorIKMethod;
+        bool _mOnAnimatorIKMethodGot;
 
         void OnAnimatorIK(int layerIndex)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnAnimatorIKMethodGot)
+                if (!_mOnAnimatorIKMethodGot)
                 {
-                    mOnAnimatorIKMethod = instance.Type.GetMethod("OnAnimatorIK", 1);
-                    mOnAnimatorIKMethodGot = true;
+                    _mOnAnimatorIKMethod = instance.Type.GetMethod("OnAnimatorIK", 1);
+                    _mOnAnimatorIKMethodGot = true;
                 }
 
-                if (mOnAnimatorIKMethod != null)
+                if (_mOnAnimatorIKMethod != null)
                 {
-                    appdomain.Invoke(mOnAnimatorIKMethod, instance, layerIndex);
+                    appdomain.Invoke(_mOnAnimatorIKMethod, instance, layerIndex);
                 }
             }
         }
 
-        IMethod mOnAudioFilterReadMethod;
-        bool mOnAudioFilterReadMethodGot;
+        IMethod _mOnAudioFilterReadMethod;
+        bool _mOnAudioFilterReadMethodGot;
 
         void OnAudioFilterRead(float[] data, int channels)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnAudioFilterReadMethodGot)
+                if (!_mOnAudioFilterReadMethodGot)
                 {
-                    mOnAudioFilterReadMethod = instance.Type.GetMethod("OnAudioFilterRead", 2);
-                    mOnAudioFilterReadMethodGot = true;
+                    _mOnAudioFilterReadMethod = instance.Type.GetMethod("OnAudioFilterRead", 2);
+                    _mOnAudioFilterReadMethodGot = true;
                 }
 
-                if (mOnAudioFilterReadMethod != null)
+                if (_mOnAudioFilterReadMethod != null)
                 {
-                    appdomain.Invoke(mOnAudioFilterReadMethod, instance, data, channels);
+                    appdomain.Invoke(_mOnAudioFilterReadMethod, instance, data, channels);
                 }
             }
         }
 
 
-        IMethod mOnCanvasGroupChangedMethod;
-        bool mOnCanvasGroupChangedMethodGot;
+        IMethod _mOnCanvasGroupChangedMethod;
+        bool _mOnCanvasGroupChangedMethodGot;
 
         void OnCanvasGroupChanged()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnCanvasGroupChangedMethodGot)
+                if (!_mOnCanvasGroupChangedMethodGot)
                 {
-                    mOnCanvasGroupChangedMethod = instance.Type.GetMethod("OnCanvasGroupChanged", 0);
-                    mOnCanvasGroupChangedMethodGot = true;
+                    _mOnCanvasGroupChangedMethod = instance.Type.GetMethod("OnCanvasGroupChanged", 0);
+                    _mOnCanvasGroupChangedMethodGot = true;
                 }
 
-                if (mOnCanvasGroupChangedMethod != null)
+                if (_mOnCanvasGroupChangedMethod != null)
                 {
-                    appdomain.Invoke(mOnCanvasGroupChangedMethod, instance, param0);
+                    appdomain.Invoke(_mOnCanvasGroupChangedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnCanvasHierarchyChangedMethod;
-        bool mOnCanvasHierarchyChangedMethodGot;
+        IMethod _mOnCanvasHierarchyChangedMethod;
+        bool _mOnCanvasHierarchyChangedMethodGot;
 
         void OnCanvasHierarchyChanged()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnCanvasHierarchyChangedMethodGot)
+                if (!_mOnCanvasHierarchyChangedMethodGot)
                 {
-                    mOnCanvasHierarchyChangedMethod = instance.Type.GetMethod("OnCanvasHierarchyChanged", 0);
-                    mOnCanvasHierarchyChangedMethodGot = true;
+                    _mOnCanvasHierarchyChangedMethod = instance.Type.GetMethod("OnCanvasHierarchyChanged", 0);
+                    _mOnCanvasHierarchyChangedMethodGot = true;
                 }
 
-                if (mOnCanvasHierarchyChangedMethod != null)
+                if (_mOnCanvasHierarchyChangedMethod != null)
                 {
-                    appdomain.Invoke(mOnCanvasHierarchyChangedMethod, instance, param0);
+                    appdomain.Invoke(_mOnCanvasHierarchyChangedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnCollisionEnter2DMethod;
-        bool mOnCollisionEnter2DMethodGot;
+        IMethod _mOnCollisionEnter2DMethod;
+        bool _mOnCollisionEnter2DMethodGot;
 
         void OnCollisionEnter2D(Collision2D other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnCollisionEnter2DMethodGot)
+            if (!_mOnCollisionEnter2DMethodGot)
             {
-                mOnCollisionEnter2DMethod = instance.Type.GetMethod("OnCollisionEnter2D", 1);
-                mOnCollisionEnter2DMethodGot = true;
+                _mOnCollisionEnter2DMethod = instance.Type.GetMethod("OnCollisionEnter2D", 1);
+                _mOnCollisionEnter2DMethodGot = true;
             }
 
-            if (mOnCollisionEnter2DMethod != null)
+            if (_mOnCollisionEnter2DMethod != null)
             {
-                appdomain.Invoke(mOnCollisionEnter2DMethod, instance, other);
+                appdomain.Invoke(_mOnCollisionEnter2DMethod, instance, other);
             }
         }
 
-        IMethod mOnCollisionExit2DMethod;
-        bool mOnCollisionExit2DMethodGot;
+        IMethod _mOnCollisionExit2DMethod;
+        bool _mOnCollisionExit2DMethodGot;
 
         void OnCollisionExit2D(Collision2D other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnCollisionExit2DMethodGot)
+            if (!_mOnCollisionExit2DMethodGot)
             {
-                mOnCollisionExit2DMethod = instance.Type.GetMethod("OnCollisionExit2D", 1);
-                mOnCollisionExit2DMethodGot = true;
+                _mOnCollisionExit2DMethod = instance.Type.GetMethod("OnCollisionExit2D", 1);
+                _mOnCollisionExit2DMethodGot = true;
             }
 
-            if (mOnCollisionExit2DMethod != null)
+            if (_mOnCollisionExit2DMethod != null)
             {
-                appdomain.Invoke(mOnCollisionExit2DMethod, instance, other);
+                appdomain.Invoke(_mOnCollisionExit2DMethod, instance, other);
             }
         }
 
-        IMethod mOnCollisionStay2DMethod;
-        bool mOnCollisionStay2DMethodGot;
+        IMethod _mOnCollisionStay2DMethod;
+        bool _mOnCollisionStay2DMethodGot;
 
         void OnCollisionStay2D(Collision2D other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
-            if (!mOnCollisionStay2DMethodGot)
+            if (!_mOnCollisionStay2DMethodGot)
             {
-                mOnCollisionStay2DMethod = instance.Type.GetMethod("OnCollisionStay2D", 1);
-                mOnCollisionStay2DMethodGot = true;
+                _mOnCollisionStay2DMethod = instance.Type.GetMethod("OnCollisionStay2D", 1);
+                _mOnCollisionStay2DMethodGot = true;
             }
 
-            if (mOnCollisionStay2DMethod != null)
+            if (_mOnCollisionStay2DMethod != null)
             {
-                appdomain.Invoke(mOnCollisionStay2DMethod, instance, other);
+                appdomain.Invoke(_mOnCollisionStay2DMethod, instance, other);
             }
         }
 
-        IMethod mOnConnectedToServerMethod;
-        bool mOnConnectedToServerMethodGot;
+        IMethod _mOnConnectedToServerMethod;
+        bool _mOnConnectedToServerMethodGot;
 
         void OnConnectedToServer()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnConnectedToServerMethodGot)
+                if (!_mOnConnectedToServerMethodGot)
                 {
-                    mOnConnectedToServerMethod = instance.Type.GetMethod("OnConnectedToServer", 0);
-                    mOnConnectedToServerMethodGot = true;
+                    _mOnConnectedToServerMethod = instance.Type.GetMethod("OnConnectedToServer", 0);
+                    _mOnConnectedToServerMethodGot = true;
                 }
 
-                if (mOnConnectedToServerMethod != null)
+                if (_mOnConnectedToServerMethod != null)
                 {
-                    appdomain.Invoke(mOnConnectedToServerMethod, instance, param0);
+                    appdomain.Invoke(_mOnConnectedToServerMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnControllerColliderHitMethod;
-        bool mOnControllerColliderHitMethodGot;
+        IMethod _mOnControllerColliderHitMethod;
+        bool _mOnControllerColliderHitMethodGot;
 
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnControllerColliderHitMethodGot)
+                if (!_mOnControllerColliderHitMethodGot)
                 {
-                    mOnControllerColliderHitMethod = instance.Type.GetMethod("OnControllerColliderHit", 1);
-                    mOnControllerColliderHitMethodGot = true;
+                    _mOnControllerColliderHitMethod = instance.Type.GetMethod("OnControllerColliderHit", 1);
+                    _mOnControllerColliderHitMethodGot = true;
                 }
 
-                if (mOnControllerColliderHitMethod != null)
+                if (_mOnControllerColliderHitMethod != null)
                 {
-                    appdomain.Invoke(mOnControllerColliderHitMethod, instance, hit);
+                    appdomain.Invoke(_mOnControllerColliderHitMethod, instance, hit);
                 }
             }
         }
 
-        IMethod mOnDrawGizmosSelectedMethod;
-        bool mOnDrawGizmosSelectedMethodGot;
+        IMethod _mOnDrawGizmosSelectedMethod;
+        bool _mOnDrawGizmosSelectedMethodGot;
 
         void OnDrawGizmosSelected()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnDrawGizmosSelectedMethodGot)
+                if (!_mOnDrawGizmosSelectedMethodGot)
                 {
-                    mOnDrawGizmosSelectedMethod = instance.Type.GetMethod("OnDrawGizmosSelected", 0);
-                    mOnDrawGizmosSelectedMethodGot = true;
+                    _mOnDrawGizmosSelectedMethod = instance.Type.GetMethod("OnDrawGizmosSelected", 0);
+                    _mOnDrawGizmosSelectedMethodGot = true;
                 }
 
-                if (mOnDrawGizmosSelectedMethod != null)
+                if (_mOnDrawGizmosSelectedMethod != null)
                 {
-                    appdomain.Invoke(mOnDrawGizmosSelectedMethod, instance, param0);
+                    appdomain.Invoke(_mOnDrawGizmosSelectedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnGUIMethod;
-        bool mOnGUIMethodGot;
+        IMethod _mOnGUIMethod;
+        bool _mOnGUIMethodGot;
 
         void OnGUI()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnGUIMethodGot)
+                if (!_mOnGUIMethodGot)
                 {
-                    mOnGUIMethod = instance.Type.GetMethod("OnGUI", 0);
-                    mOnGUIMethodGot = true;
+                    _mOnGUIMethod = instance.Type.GetMethod("OnGUI", 0);
+                    _mOnGUIMethodGot = true;
                 }
 
-                if (mOnGUIMethod != null)
+                if (_mOnGUIMethod != null)
                 {
-                    appdomain.Invoke(mOnGUIMethod, instance, param0);
+                    appdomain.Invoke(_mOnGUIMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnJointBreak2DMethod;
-        bool mOnJointBreak2DMethodGot;
+        IMethod _mOnJointBreak2DMethod;
+        bool _mOnJointBreak2DMethodGot;
 
         void OnJointBreak2D(Joint2D brokenJoint)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnJointBreak2DMethodGot)
+                if (!_mOnJointBreak2DMethodGot)
                 {
-                    mOnJointBreak2DMethod = instance.Type.GetMethod("OnJointBreak2D", 1);
-                    mOnJointBreak2DMethodGot = true;
+                    _mOnJointBreak2DMethod = instance.Type.GetMethod("OnJointBreak2D", 1);
+                    _mOnJointBreak2DMethodGot = true;
                 }
 
-                if (mOnJointBreak2DMethod != null)
+                if (_mOnJointBreak2DMethod != null)
                 {
-                    appdomain.Invoke(mOnJointBreak2DMethod, instance, brokenJoint);
+                    appdomain.Invoke(_mOnJointBreak2DMethod, instance, brokenJoint);
                 }
             }
         }
 
-        IMethod mOnParticleSystemStoppedMethod;
-        bool mOnParticleSystemStoppedMethodGot;
+        IMethod _mOnParticleSystemStoppedMethod;
+        bool _mOnParticleSystemStoppedMethodGot;
 
         void OnParticleSystemStopped()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnParticleSystemStoppedMethodGot)
+                if (!_mOnParticleSystemStoppedMethodGot)
                 {
-                    mOnParticleSystemStoppedMethod = instance.Type.GetMethod("OnParticleSystemStopped", 0);
-                    mOnParticleSystemStoppedMethodGot = true;
+                    _mOnParticleSystemStoppedMethod = instance.Type.GetMethod("OnParticleSystemStopped", 0);
+                    _mOnParticleSystemStoppedMethodGot = true;
                 }
 
-                if (mOnParticleSystemStoppedMethod != null)
+                if (_mOnParticleSystemStoppedMethod != null)
                 {
-                    appdomain.Invoke(mOnParticleSystemStoppedMethod, instance, param0);
+                    appdomain.Invoke(_mOnParticleSystemStoppedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnTransformChildrenChangedMethod;
-        bool mOnTransformChildrenChangedMethodGot;
+        IMethod _mOnTransformChildrenChangedMethod;
+        bool _mOnTransformChildrenChangedMethodGot;
 
         void OnTransformChildrenChanged()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnTransformChildrenChangedMethodGot)
+                if (!_mOnTransformChildrenChangedMethodGot)
                 {
-                    mOnTransformChildrenChangedMethod = instance.Type.GetMethod("OnTransformChildrenChanged", 0);
-                    mOnTransformChildrenChangedMethodGot = true;
+                    _mOnTransformChildrenChangedMethod = instance.Type.GetMethod("OnTransformChildrenChanged", 0);
+                    _mOnTransformChildrenChangedMethodGot = true;
                 }
 
-                if (mOnTransformChildrenChangedMethod != null)
+                if (_mOnTransformChildrenChangedMethod != null)
                 {
-                    appdomain.Invoke(mOnTransformChildrenChangedMethod, instance, param0);
+                    appdomain.Invoke(_mOnTransformChildrenChangedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnTransformParentChangedMethod;
-        bool mOnTransformParentChangedMethodGot;
+        IMethod _mOnTransformParentChangedMethod;
+        bool _mOnTransformParentChangedMethodGot;
 
         void OnTransformParentChanged()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnTransformParentChangedMethodGot)
+                if (!_mOnTransformParentChangedMethodGot)
                 {
-                    mOnTransformParentChangedMethod = instance.Type.GetMethod("OnTransformParentChanged", 0);
-                    mOnTransformParentChangedMethodGot = true;
+                    _mOnTransformParentChangedMethod = instance.Type.GetMethod("OnTransformParentChanged", 0);
+                    _mOnTransformParentChangedMethodGot = true;
                 }
 
-                if (mOnTransformParentChangedMethod != null)
+                if (_mOnTransformParentChangedMethod != null)
                 {
-                    appdomain.Invoke(mOnTransformParentChangedMethod, instance, param0);
+                    appdomain.Invoke(_mOnTransformParentChangedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnTriggerEnter2DMethod;
-        bool mOnTriggerEnter2DMethodGot;
+        IMethod _mOnTriggerEnter2DMethod;
+        bool _mOnTriggerEnter2DMethodGot;
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnTriggerEnter2DMethodGot)
+                if (!_mOnTriggerEnter2DMethodGot)
                 {
-                    mOnTriggerEnter2DMethod = instance.Type.GetMethod("OnTriggerEnter2D", 1);
-                    mOnTriggerEnter2DMethodGot = true;
+                    _mOnTriggerEnter2DMethod = instance.Type.GetMethod("OnTriggerEnter2D", 1);
+                    _mOnTriggerEnter2DMethodGot = true;
                 }
 
-                if (mOnTriggerEnter2DMethod != null)
+                if (_mOnTriggerEnter2DMethod != null)
                 {
-                    appdomain.Invoke(mOnTriggerEnter2DMethod, instance, other);
+                    appdomain.Invoke(_mOnTriggerEnter2DMethod, instance, other);
                 }
             }
         }
 
-        IMethod mOnTriggerExit2DMethod;
-        bool mOnTriggerExit2DMethodGot;
+        IMethod _mOnTriggerExit2DMethod;
+        bool _mOnTriggerExit2DMethodGot;
 
         void OnTriggerExit2D(Collider2D other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnTriggerExit2DMethodGot)
+                if (!_mOnTriggerExit2DMethodGot)
                 {
-                    mOnTriggerExit2DMethod = instance.Type.GetMethod("OnTriggerExit2D", 1);
-                    mOnTriggerExit2DMethodGot = true;
+                    _mOnTriggerExit2DMethod = instance.Type.GetMethod("OnTriggerExit2D", 1);
+                    _mOnTriggerExit2DMethodGot = true;
                 }
 
-                if (mOnTriggerExit2DMethod != null)
+                if (_mOnTriggerExit2DMethod != null)
                 {
-                    appdomain.Invoke(mOnTriggerExit2DMethod, instance, other);
+                    appdomain.Invoke(_mOnTriggerExit2DMethod, instance, other);
                 }
             }
         }
 
-        IMethod mOnTriggerStay2DMethod;
-        bool mOnTriggerStay2DMethodGot;
+        IMethod _mOnTriggerStay2DMethod;
+        bool _mOnTriggerStay2DMethodGot;
 
         void OnTriggerStay2D(Collider2D other)
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnTriggerStay2DMethodGot)
+                if (!_mOnTriggerStay2DMethodGot)
                 {
-                    mOnTriggerStay2DMethod = instance.Type.GetMethod("OnTriggerStay2D", 1);
-                    mOnTriggerStay2DMethodGot = true;
+                    _mOnTriggerStay2DMethod = instance.Type.GetMethod("OnTriggerStay2D", 1);
+                    _mOnTriggerStay2DMethodGot = true;
                 }
 
-                if (mOnTriggerStay2DMethod != null)
+                if (_mOnTriggerStay2DMethod != null)
                 {
-                    appdomain.Invoke(mOnTriggerStay2DMethod, instance, other);
+                    appdomain.Invoke(_mOnTriggerStay2DMethod, instance, other);
                 }
             }
         }
 
-        IMethod mOnWillRenderObjectMethod;
-        bool mOnWillRenderObjectMethodGot;
+        IMethod _mOnWillRenderObjectMethod;
+        bool _mOnWillRenderObjectMethodGot;
 
         void OnWillRenderObject()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnWillRenderObjectMethodGot)
+                if (!_mOnWillRenderObjectMethodGot)
                 {
-                    mOnWillRenderObjectMethod = instance.Type.GetMethod("OnWillRenderObject", 0);
-                    mOnWillRenderObjectMethodGot = true;
+                    _mOnWillRenderObjectMethod = instance.Type.GetMethod("OnWillRenderObject", 0);
+                    _mOnWillRenderObjectMethodGot = true;
                 }
 
-                if (mOnWillRenderObjectMethod != null)
+                if (_mOnWillRenderObjectMethod != null)
                 {
-                    appdomain.Invoke(mOnWillRenderObjectMethod, instance, param0);
+                    appdomain.Invoke(_mOnWillRenderObjectMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnBeforeTransformParentChangedMethod;
-        bool mOnBeforeTransformParentChangedMethodGot;
+        IMethod _mOnBeforeTransformParentChangedMethod;
+        bool _mOnBeforeTransformParentChangedMethodGot;
 
         void OnBeforeTransformParentChanged()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnBeforeTransformParentChangedMethodGot)
+                if (!_mOnBeforeTransformParentChangedMethodGot)
                 {
-                    mOnBeforeTransformParentChangedMethod =
+                    _mOnBeforeTransformParentChangedMethod =
                         instance.Type.GetMethod("OnBeforeTransformParentChanged", 0);
-                    mOnBeforeTransformParentChangedMethodGot = true;
+                    _mOnBeforeTransformParentChangedMethodGot = true;
                 }
 
-                if (mOnBeforeTransformParentChangedMethod != null)
+                if (_mOnBeforeTransformParentChangedMethod != null)
                 {
-                    appdomain.Invoke(mOnBeforeTransformParentChangedMethod, instance, param0);
+                    appdomain.Invoke(_mOnBeforeTransformParentChangedMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnDidApplyAnimationPropertiesMethod;
-        bool mOnDidApplyAnimationPropertiesMethodGot;
+        IMethod _mOnDidApplyAnimationPropertiesMethod;
+        bool _mOnDidApplyAnimationPropertiesMethodGot;
 
         void OnDidApplyAnimationProperties()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnDidApplyAnimationPropertiesMethodGot)
+                if (!_mOnDidApplyAnimationPropertiesMethodGot)
                 {
-                    mOnDidApplyAnimationPropertiesMethod = instance.Type.GetMethod("OnDidApplyAnimationProperties", 0);
-                    mOnDidApplyAnimationPropertiesMethodGot = true;
+                    _mOnDidApplyAnimationPropertiesMethod = instance.Type.GetMethod("OnDidApplyAnimationProperties", 0);
+                    _mOnDidApplyAnimationPropertiesMethodGot = true;
                 }
 
-                if (mOnDidApplyAnimationPropertiesMethod != null)
+                if (_mOnDidApplyAnimationPropertiesMethod != null)
                 {
-                    appdomain.Invoke(mOnDidApplyAnimationPropertiesMethod, instance, param0);
+                    appdomain.Invoke(_mOnDidApplyAnimationPropertiesMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnMouseUpAsButtonMethod;
-        bool mOnMouseUpAsButtonMethodGot;
+        IMethod _mOnMouseUpAsButtonMethod;
+        bool _mOnMouseUpAsButtonMethodGot;
 
         void OnMouseUpAsButton()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnMouseUpAsButtonMethodGot)
+                if (!_mOnMouseUpAsButtonMethodGot)
                 {
-                    mOnMouseUpAsButtonMethod = instance.Type.GetMethod("OnMouseUpAsButton", 0);
-                    mOnMouseUpAsButtonMethodGot = true;
+                    _mOnMouseUpAsButtonMethod = instance.Type.GetMethod("OnMouseUpAsButton", 0);
+                    _mOnMouseUpAsButtonMethodGot = true;
                 }
 
-                if (mOnMouseUpAsButtonMethod != null)
+                if (_mOnMouseUpAsButtonMethod != null)
                 {
-                    appdomain.Invoke(mOnMouseUpAsButtonMethod, instance, param0);
+                    appdomain.Invoke(_mOnMouseUpAsButtonMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnParticleUpdateJobScheduledMethod;
-        bool mOnParticleUpdateJobScheduledMethodGot;
+        IMethod _mOnParticleUpdateJobScheduledMethod;
+        bool _mOnParticleUpdateJobScheduledMethodGot;
 
         void OnParticleUpdateJobScheduled()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnParticleUpdateJobScheduledMethodGot)
+                if (!_mOnParticleUpdateJobScheduledMethodGot)
                 {
-                    mOnParticleUpdateJobScheduledMethod = instance.Type.GetMethod("OnParticleUpdateJobScheduled", 0);
-                    mOnParticleUpdateJobScheduledMethodGot = true;
+                    _mOnParticleUpdateJobScheduledMethod = instance.Type.GetMethod("OnParticleUpdateJobScheduled", 0);
+                    _mOnParticleUpdateJobScheduledMethodGot = true;
                 }
 
-                if (mOnParticleUpdateJobScheduledMethod != null)
+                if (_mOnParticleUpdateJobScheduledMethod != null)
                 {
-                    appdomain.Invoke(mOnParticleUpdateJobScheduledMethod, instance, param0);
+                    appdomain.Invoke(_mOnParticleUpdateJobScheduledMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mOnRectTransformDimensionsChangeMethod;
-        bool mOnRectTransformDimensionsChangeMethodGot;
+        IMethod _mOnRectTransformDimensionsChangeMethod;
+        bool _mOnRectTransformDimensionsChangeMethodGot;
 
         void OnRectTransformDimensionsChange()
         {
-            if (isJBehaviour || !isMonoBehaviour) return;
-
             if (instance != null)
             {
-                if (!mOnRectTransformDimensionsChangeMethodGot)
+                if (!_mOnRectTransformDimensionsChangeMethodGot)
                 {
-                    mOnRectTransformDimensionsChangeMethod =
+                    _mOnRectTransformDimensionsChangeMethod =
                         instance.Type.GetMethod("OnRectTransformDimensionsChange", 0);
-                    mOnRectTransformDimensionsChangeMethodGot = true;
+                    _mOnRectTransformDimensionsChangeMethodGot = true;
                 }
 
-                if (mOnRectTransformDimensionsChangeMethod != null)
+                if (_mOnRectTransformDimensionsChangeMethod != null)
                 {
-                    appdomain.Invoke(mOnRectTransformDimensionsChangeMethod, instance, param0);
+                    appdomain.Invoke(_mOnRectTransformDimensionsChangeMethod, instance, ConstMgr.NullObjects);
                 }
             }
         }
 
-        IMethod mToStringMethod;
-        bool mToStringMethodGot;
+        IMethod _mToStringMethod;
+        bool _mToStringMethodGot;
         public override string ToString()
         {
             if (instance != null)
             {
-                if (!mToStringMethodGot)
+                if (!_mToStringMethodGot)
                 {
-                    mToStringMethod =
+                    _mToStringMethod =
                         instance.Type.GetMethod("ToString", 0);
-                    mToStringMethodGot = true;
+                    _mToStringMethodGot = true;
                 }
 
-                if (mToStringMethod != null)
+                if (_mToStringMethod != null)
                 {
-                    appdomain.Invoke(mToStringMethod, instance, param0);
+                    appdomain.Invoke(_mToStringMethod, instance, ConstMgr.NullObjects);
                 }
             }
 

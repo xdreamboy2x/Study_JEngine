@@ -12,6 +12,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 using ILRuntime.CLR.TypeSystem;
+using ILRuntime.Reflection;
+using JEngine.Core.DO_NOT_USE;
 using Object = UnityEngine.Object;
 
 namespace JEngine.Editor
@@ -65,7 +67,7 @@ namespace JEngine.Editor
                     //ignored
                 }
 
-                await Task.Delay(500);
+                await TimeMgr.Delay(500);
             }
         }
 
@@ -199,15 +201,20 @@ namespace JEngine.Editor
             var obj = instance[objValue];
             try
             {
-                var clrInstance = Tools.FindObjectsOfTypeAll<MonoBehaviourAdapter.Adaptor>()
+                object clrInstance = Tools.FindObjectsOfTypeAll<MonoBehaviourAdapter.Adaptor>()
                     .Find(adaptor =>
-                        adaptor.ILInstance.Equals(instance[i.Value]));
+                        adaptor.ILInstance.Equals(obj));
+                if (clrInstance == null)
+                {
+                    clrInstance = Tools.FindObjectsOfTypeAll<ClassBindNonMonoBehaviourAdapter.Adaptor>()
+                        .Find(adaptor =>
+                            adaptor.ILInstance.Equals(obj));
+                }
                 if (clrInstance != null)
                 {
-                    GUI.enabled = true;
-                    EditorGUILayout.ObjectField(objName, clrInstance, typeof(MonoBehaviourAdapter.Adaptor),
-                        true);
                     GUI.enabled = false;
+                    EditorGUILayout.ObjectField(name, (MonoBehaviour)clrInstance, typeof(MonoBehaviour), true);
+                    GUI.enabled = true;
                 }
                 else
                 {
@@ -236,9 +243,9 @@ namespace JEngine.Editor
                         adaptor.ILInstance.Equals(instance[i.Value]));
                 if (clrInstance != null)
                 {
-                    GUI.enabled = true;
-                    EditorGUILayout.ObjectField(objName, clrInstance.gameObject, typeof(GameObject), true);
                     GUI.enabled = false;
+                    EditorGUILayout.ObjectField(objName, clrInstance.gameObject, typeof(GameObject), true);
+                    GUI.enabled = true;
                 }
 
                 return true;
@@ -256,14 +263,13 @@ namespace JEngine.Editor
             var objName = i.Key;
             var obj = instance[objValue];
             //可绑定值，可以尝试更改
-            if (type.ReflectionType.ToString().Contains("BindableProperty") && obj != null)
+            if (type.ReflectionType.IsGenericType && type.ReflectionType.GetGenericTypeDefinition() == typeof(BindableProperty<>) && obj != null)
             {
                 PropertyInfo fi = type.ReflectionType.GetProperty("Value");
                 object val = fi?.GetValue(obj);
 
-                string genericTypeStr = type.ReflectionType.ToString().Split('`')[1].Replace("1<", "")
-                    .Replace(">", "");
-                Type genericType = Type.GetType(genericTypeStr);
+                Type genericType = type.ReflectionType.GenericTypeArguments[0];
+                genericType = genericType is ILRuntimeWrapperType wt ? wt.RealType : genericType;
                 if (genericType == null ||
                     (!genericType.IsPrimitive && genericType != typeof(string))) //不是基础类型或字符串
                 {
@@ -308,19 +314,21 @@ namespace JEngine.Editor
                         var clrInstance = (MonoBehaviour) Tools.FindObjectsOfTypeAll<CrossBindingAdaptorType>()
                             .Find(adaptor =>
                                 Equals(adaptor.ILInstance, instance[objValue]));
-                        GUI.enabled = true;
-                        instance[i.Value] = EditorGUILayout.ObjectField(name, clrInstance, cType, true);
                         GUI.enabled = false;
+                        EditorGUILayout.ObjectField(name, clrInstance, cType, true);
+                        GUI.enabled = true;
                     }
                     catch
                     {
                         EditorGUILayout.LabelField(name, "未赋值的热更类");
                     }
                 }
-
-                //处理Unity类型
-                var res = EditorGUILayout.ObjectField(name, obj as Object, cType, true);
-                instance[i.Value] = res;
+                else
+                {
+                    //处理Unity类型
+                    var res = EditorGUILayout.ObjectField(name, obj as Object, cType, true);
+                    instance[i.Value] = res;
+                }
 
                 return true;
             }

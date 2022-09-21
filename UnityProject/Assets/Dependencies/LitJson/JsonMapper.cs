@@ -23,6 +23,11 @@ using ILRuntime.CLR.TypeSystem;
 using ILRuntime.CLR.Utils;
 using ILRuntime.Reflection;
 using Object = System.Object;
+#if DEBUG && !DISABLE_ILRUNTIME_DEBUG
+using AutoList = System.Collections.Generic.List<object>;
+#else
+using AutoList = ILRuntime.Other.UncheckedList<object>;
+#endif
 
 namespace LitJson
 {
@@ -573,9 +578,24 @@ namespace LitJson
                                 continue;
                             }
                         }
-
-                        var dict = ((IDictionary) instance);
+                        
                         var elem_type = t_data.ElementType;
+
+                        if (inst_type is ILRuntimeWrapperType)//ilrt的字典就获取它第二个泛型参数
+                        {
+                            elem_type = (inst_type as ILRuntimeWrapperType)?.CLRType.GenericArguments[1].Value.ReflectionType;
+                        }
+                        else
+                        {
+                            var dicTypes = instance.GetType().GetGenericArguments();
+                            var converter = System.ComponentModel.TypeDescriptor.GetConverter(dicTypes[0]);
+                            if (converter != null)
+                            {
+                                elem_type = dicTypes[1];
+                            }
+                        }
+                        
+                        var dict = ((IDictionary) instance);
                         object readValue = ReadValue(elem_type, reader);
                         var rt = t_data.ElementType is ILRuntime.Reflection.ILRuntimeWrapperType
                             ? ((ILRuntime.Reflection.ILRuntimeWrapperType) t_data.ElementType).RealType
@@ -1087,6 +1107,8 @@ namespace LitJson
         {
             custom_importers_table.Clear ();
         }
+        
+        #if INIT_JE
 
         public unsafe static void RegisterILRuntimeCLRRedirection(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
         {
@@ -1111,7 +1133,7 @@ namespace LitJson
             }
         }
 
-        public unsafe static StackObject* JsonToObject(ILIntepreter intp, StackObject* esp, IList<object> mStack, CLRMethod method, bool isNewObj)
+        public unsafe static StackObject* JsonToObject(ILIntepreter intp, StackObject* esp, AutoList mStack, CLRMethod method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -1125,7 +1147,7 @@ namespace LitJson
             return ILIntepreter.PushObject(__ret, mStack, result_of_this_method);
         }
 
-        public unsafe static StackObject* JsonToObject2(ILIntepreter intp, StackObject* esp, IList<object> mStack, CLRMethod method, bool isNewObj)
+        public unsafe static StackObject* JsonToObject2(ILIntepreter intp, StackObject* esp, AutoList mStack, CLRMethod method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -1139,7 +1161,7 @@ namespace LitJson
             return ILIntepreter.PushObject(__ret, mStack, result_of_this_method);
         }
 
-        public unsafe static StackObject* JsonToObject3(ILIntepreter intp, StackObject* esp, IList<object> mStack, CLRMethod method, bool isNewObj)
+        public unsafe static StackObject* JsonToObject3(ILIntepreter intp, StackObject* esp, AutoList mStack, CLRMethod method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -1152,5 +1174,6 @@ namespace LitJson
 
             return ILIntepreter.PushObject(__ret, mStack, result_of_this_method);
         }
+        #endif
     }
 }
